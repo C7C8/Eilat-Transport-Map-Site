@@ -31,9 +31,15 @@
       <span *ngIf="!traffic">Show traffic</span>
       <span *ngIf="traffic">Hide traffic</span>
     </button>
+    <button mat-raised-button (click)="toggleTransit()" [color]="transit? 'primary' : 'secondary'">
+      <fa-icon [icon]="faBus"></fa-icon>
+      <span *ngIf="!transit">Show bus stops</span>
+      <span *ngIf="transit">Hide bus stops</span>
+    </button>
   </div>
+
   <div class="side-info">
-    <h2>What you're seeing</h2>
+    <h2>What you're seeing:</h2>
 
     <!-- Base map styles -->
     <div *ngIf="mapType === 'default'">
@@ -71,6 +77,14 @@
       <p>Traffic data is shown as colored lines along the road, on a scale from green to
       red. The more red the line is &mdash; straight up to dark maroon &mdash; the heavier
       traffic in that area is.</p>
+    </div>
+
+    <div *ngIf="transit">
+      <h3>Public transit overlay</h3>
+      <p>Public transport is shown, in particular bus stops. Unfortunately the service used to generate
+      this map, the Google Maps API, doesn't have access to Eilat bus routes or timetables, possibly
+        limiting its usefulness to travelers. Google offers a <a href="https://support.google.com/transitpartners">transit partnership
+        program</a> to gather static and live data from cities to better direct travelers and tourists.</p>
     </div>
   </div>
 </div>

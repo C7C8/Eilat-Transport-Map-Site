@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { faCar, faCompress } from '@fortawesome/free-solid-svg-icons'
+import { faCar, faCompress, faBus } from '@fortawesome/free-solid-svg-icons'
 
 declare var google: any;
 let map: any;
@@ -13,12 +13,15 @@ export class AppComponent implements OnInit {
   eilatCoords = { lat: 29.554395401332155, lng: 34.949205486964829 };
   mapType: string;
   trafficLayer: any;
+  transitLayer: any;
 
   traffic = false;
+  transit = false;
   offCenter = false;
 
   faCar = faCar;
   faCompress = faCompress;
+  faBus = faBus;
 
   ngOnInit(): void {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -522,6 +525,7 @@ export class AppComponent implements OnInit {
 
     // Traffic layer
     this.trafficLayer = new google.maps.TrafficLayer();
+    this.transitLayer = new google.maps.TransitLayer();
 
     // Map event handlers
     const self = this; // Because EVENT HANDLERS! YAY!
@@ -536,11 +540,12 @@ export class AppComponent implements OnInit {
   }
 
   toggleTraffic(): void {
-    if (this.traffic) {
-      this.trafficLayer.setMap(null);
-    } else {
-      this.trafficLayer.setMap(map);
-    }
+    this.trafficLayer.setMap(this.traffic ? null : map);
     this.traffic = !this.traffic;
+  }
+
+  toggleTransit(): void {
+    this.transitLayer.setMap(this.transit ? null : map);
+    this.transit = !this.transit;
   }
 }
