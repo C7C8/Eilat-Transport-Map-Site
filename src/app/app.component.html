@@ -27,15 +27,19 @@
   <div class="side-info">
     <h2>What you're seeing</h2>
 
-    <div *ngIf="mapType === 'roadmap' || mapType === 'terrain'">
+    <div *ngIf="mapType === 'default'">
       <h3>Roadmap view</h3>
       <p>Displayed is a roadmap view of Eilat, with all roads shown clearly, and bodies of water in blue. </p>
 
-      <p *ngIf="mapType === 'terrain'">The terrain of the city is shown using shadows and standard topographical
+    </div>
+
+    <div *ngIf="mapType === 'terrain'">
+      <h3>Terrain view</h3>
+      <p>The terrain of the city is shown using shadows and standard topographical
       mapping techniques, to help aid understanding of how terrain affects transport in the city. If you've never
       read a topographical map before, <a href="https://www.rei.com/learn/expert-advice/topo-maps-how-to-use.html">
-          here's a quick guide.
-        </a></p>
+          here's a quick guide.</a>
+      </p>
     </div>
 
     <div *ngIf="mapType === 'hybrid'">
@@ -45,8 +49,12 @@
         terrain.</p>
     </div>
 
-    <p>The vertical line on the far right is the border between Jordan and Israel.</p>
-
+    <div *ngIf="mapType === 'road_schematic'">
+      <h3>Schematic view</h3>
+      <p>In schematic view, terrain and water are darkened while roads are displayed in yellow for strong
+      visibility. The brighter the road, the bigger or faster it is, so the brightest level corresponds to
+      highways while the darkest is for local roads only.</p>
+    </div>
   </div>
 </div>
 
