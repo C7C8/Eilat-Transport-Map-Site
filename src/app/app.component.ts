@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 declare var google: any;
+var map: any;
 
 @Component({
   selector: 'app-root',
@@ -7,14 +8,31 @@ declare var google: any;
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  map: any;
+  mapType: string;
 
   ngOnInit(): void {
-    this.map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: 29.554237, lng: 34.954729},
-      zoom: 14.5,
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: 29.554395401332155, lng: 34.949205486964829},
+      zoom: 14.6,
       gestureHandling: 'none',
-      zoomControl: false
+      zoomControl: false,
+      streetViewControl: false,
+      rotateControl: false,
+      fullscreenControl: false,
+      mapTypeControlOptions: {
+        style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+        mapTypeIds: ['roadmap', 'terrain', 'hybrid'],
+        position: google.maps.ControlPosition.TOP_LEFT
+      }
+    });
+
+    this.mapType = map.getMapTypeId();
+
+    // Map event handlers
+    const self = this; // Because EVENT HANDLERS! YAY!
+    map.addListener('maptypeid_changed', function () {
+      self.mapType = map.getMapTypeId();
+      console.log(self.mapType);
     });
   }
 }

@@ -8,9 +8,16 @@ h1 {
   max-width: 1.5em;
   max-height: 1.5em; }
 
-#map {
+.map-container {
+  margin-top: 3em;
   height: 80%;
-  width: 66%;
-  margin: 3em auto; }
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr; }
+
+#map {
+  height: 100%; }
+
+.side-info {
+  padding: 0 2em; }
 
 /*# sourceMappingURL=app.component.css.map */
