@@ -11,6 +11,8 @@ var map: any;
 export class AppComponent implements OnInit {
   eilatCoords = { lat: 29.554395401332155, lng: 34.949205486964829 };
   mapType: string;
+  traffic = false;
+  trafficLayer: any;
 
   ngOnInit(): void {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -29,7 +31,7 @@ export class AppComponent implements OnInit {
       rotateControl: false,
       fullscreenControl: false,
       mapTypeControlOptions: {
-        style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+        style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
         mapTypeIds: ['default', 'terrain', 'hybrid', 'road_schematic'],
         position: google.maps.ControlPosition.TOP_LEFT
       }
@@ -512,6 +514,9 @@ export class AppComponent implements OnInit {
     map.setMapTypeId('default');
     this.mapType = 'default';
 
+    // Traffic layer
+    this.trafficLayer = new google.maps.TrafficLayer();
+
     // Map event handlers
     const self = this; // Because EVENT HANDLERS! YAY!
     map.addListener('maptypeid_changed', function () {
@@ -522,5 +527,14 @@ export class AppComponent implements OnInit {
   centerMap() {
     map.setCenter(this.eilatCoords);
     map.setZoom(14.6);
+  }
+
+  toggleTraffic(): void {
+    if (this.traffic) {
+      this.trafficLayer.setMap(null);
+    } else {
+      this.trafficLayer.setMap(map);
+    }
+    this.traffic = !this.traffic;
   }
 }
