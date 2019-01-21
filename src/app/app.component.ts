@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 declare var google: any;
 var map: any;
 
@@ -8,14 +9,22 @@ var map: any;
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  eilatCoords = { lat: 29.554395401332155, lng: 34.949205486964829 };
   mapType: string;
 
   ngOnInit(): void {
     map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: 29.554395401332155, lng: 34.949205486964829},
+      center: this.eilatCoords,
       zoom: 14.6,
-      gestureHandling: 'none',
-      zoomControl: false,
+      restriction: {
+        latLngBounds: {
+          north: 29.596243,
+          south: 29.515590,
+          east: 34.998930,
+          west: 34.900423
+        },
+        strictBounds: true
+      },
       streetViewControl: false,
       rotateControl: false,
       fullscreenControl: false,
@@ -27,7 +36,8 @@ export class AppComponent implements OnInit {
     });
 
     // Map styling
-    const mapStyleDefault = new google.maps.StyledMapType([
+    const mapStyleDefault = new google.maps.StyledMapType(
+      [
         {
           'elementType': 'geometry',
           'stylers': [
@@ -98,19 +108,18 @@ export class AppComponent implements OnInit {
         },
         {
           'featureType': 'poi',
-          'elementType': 'geometry',
           'stylers': [
             {
-              'color': '#dfd2ae'
+              'visibility': 'off'
             }
           ]
         },
         {
           'featureType': 'poi',
-          'elementType': 'labels',
+          'elementType': 'geometry',
           'stylers': [
             {
-              'visibility': 'off'
+              'color': '#dfd2ae'
             }
           ]
         },
@@ -205,6 +214,14 @@ export class AppComponent implements OnInit {
           ]
         },
         {
+          'featureType': 'transit',
+          'stylers': [
+            {
+              'visibility': 'on'
+            }
+          ]
+        },
+        {
           'featureType': 'transit.line',
           'elementType': 'geometry',
           'stylers': [
@@ -258,7 +275,8 @@ export class AppComponent implements OnInit {
             }
           ]
         }
-      ], { 'name': 'Map' });
+      ]
+      , { 'name': 'Map' });
     const mapStyleRoadHighlight = new google.maps.StyledMapType([
       { featureType: 'transit.station.airport', stylers: [{ 'visibility': 'off' }] },
       { 'elementType': 'geometry', 'stylers': [{ 'color': '#242f3e' }] },
@@ -499,5 +517,10 @@ export class AppComponent implements OnInit {
     map.addListener('maptypeid_changed', function () {
       self.mapType = map.getMapTypeId();
     });
+  }
+
+  centerMap() {
+    map.setCenter(this.eilatCoords);
+    map.setZoom(14.6);
   }
 }
