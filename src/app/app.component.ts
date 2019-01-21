@@ -525,10 +525,7 @@ export class AppComponent implements OnInit {
 
     // Map event handlers
     const self = this; // Because EVENT HANDLERS! YAY!
-    map.addListener('maptypeid_changed', function () {
-      self.mapType = map.getMapTypeId();
-    });
-
+    map.addListener('maptypeid_changed', () => { self.mapType = map.getMapTypeId(); });
     map.addListener('center_changed', () => { this.offCenter = true; });
   }
 
