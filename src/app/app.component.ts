@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { faCar, faCompress } from '@fortawesome/free-solid-svg-icons'
 
 declare var google: any;
-var map: any;
+let map: any;
 
 @Component({
   selector: 'app-root',
@@ -11,13 +12,18 @@ var map: any;
 export class AppComponent implements OnInit {
   eilatCoords = { lat: 29.554395401332155, lng: 34.949205486964829 };
   mapType: string;
-  traffic = false;
   trafficLayer: any;
+
+  traffic = false;
+  offCenter = false;
+
+  faCar = faCar;
+  faCompress = faCompress;
 
   ngOnInit(): void {
     map = new google.maps.Map(document.getElementById('map'), {
       center: this.eilatCoords,
-      zoom: 14.6,
+      zoom: 14.7,
       restriction: {
         latLngBounds: {
           north: 29.596243,
@@ -522,11 +528,14 @@ export class AppComponent implements OnInit {
     map.addListener('maptypeid_changed', function () {
       self.mapType = map.getMapTypeId();
     });
+
+    map.addListener('center_changed', () => { this.offCenter = true; });
   }
 
-  centerMap() {
+  centerMap(): void {
     map.setCenter(this.eilatCoords);
     map.setZoom(14.6);
+    this.offCenter = false;
   }
 
   toggleTraffic(): void {
