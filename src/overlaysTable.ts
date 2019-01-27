@@ -5,6 +5,7 @@ declare var google: any;
 export interface Overlay {
   name: string;               // Name as shown in overlay navigator
   icon: any;                  // FontAwesome icon, if applicable
+  active: boolean;            // Whether overlay is shown or not.
   descName?: string;          // Name as shown in description header
   description: string;        // Description as HTML
   tooltip?: string;           // Very short info string about the overlay
@@ -21,6 +22,7 @@ export const overlaysTable: (Overlay | GoogleOverlay)[] = [
   {
     name: 'Traffic',
     icon: faCar,
+    active: false,
     descName: 'Traffic overlay',
     tooltip: 'Highlight congestion along city roads.',
     gOverlay: new google.maps.TrafficLayer(),
@@ -30,13 +32,14 @@ export const overlaysTable: (Overlay | GoogleOverlay)[] = [
       area is.</p>`,
 
     onChange(map: any, selected: boolean): void {
-      console.log('Toggling traffic overlay', selected);
+      this.active = selected;
       this.gOverlay.setMap(selected ? map : null);
     },
   },
   {
     name: 'Bus stops',
     icon: faBus,
+    active: false,
     descName: 'Bus stop overlay',
     tooltip: 'Show bus stops within the city',
     gOverlay: new google.maps.TransitLayer(),
@@ -47,7 +50,7 @@ export const overlaysTable: (Overlay | GoogleOverlay)[] = [
       program</a> to gather static and live data from cities to better direct travelers and tourists.</p>`,
 
     onChange (map: any, selected: boolean): void {
-      console.log('Toggling bus overlay', selected);
+      this.active = selected;
       this.gOverlay.setMap(selected ? map : null);
     }
   }

@@ -83,7 +83,14 @@
     </div>
 
     <!-- Information overlays -->
+    <div *ngFor="let overlay of overlaysTable">
 
+      <!-- Angular won't let me .filter the overlays table, booooooo... -->
+      <div *ngIf="overlay.active">
+        <h3>{{overlay.descName}}</h3>
+        <div [innerHTML]="overlay.description"></div>
+      </div>
+    </div>
 
   </div>
 </div>

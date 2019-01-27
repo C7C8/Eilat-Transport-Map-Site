@@ -68,9 +68,12 @@ export class AppComponent implements OnInit {
     this.offCenter = false;
   }
 
+  // Needed because goig directly through onSelectionChange on its own can't tell the overlay object whether it's
+  // selected or not, and I trust Material to keep state better than the overlays (not that it's an issue...), and
+  // I REALLY don't want overlays handling UI events!
+  //
+  // TL;DR IDK, sue me.
   handleOverlayChange(event: MatOptionSelectionChange): void {
-    console.log(event);
     (event.source.value as Overlay).onChange(this.map, event.source.selected);
-    // (event.value as Overlay).onChange(this.map);
   }
 }
