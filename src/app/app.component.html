@@ -36,6 +36,7 @@
                   matTooltipPosition="right"
                   matTooltip="Select overlays to display on top of the map"
                   multiple>
+
         <mat-option *ngFor="let overlay of overlaysTable"
                     [value]="overlay"
                     matTooltipPosition="right"
@@ -44,6 +45,15 @@
           <fa-icon [icon]="overlay.icon"></fa-icon>
           {{overlay.name}}
         </mat-option>
+
+        <!-- Custom "+1 more" display in case of many overlays selected.
+        Shamelessly lifted from the Angular material docs... -->
+        <mat-select-trigger>
+          {{overlayCtl.value?.length > 0 ? overlayCtl.value[0].name : 'Map overlays'}}
+          <span *ngIf="overlayCtl.value?.length > 1" class="trigger-overflow">
+            (+{{overlayCtl.value.length - 1}} {{overlayCtl.value.length === 2 ? "more" : "others"}})
+          </span>
+        </mat-select-trigger>
       </mat-select>
     </mat-form-field>
 
