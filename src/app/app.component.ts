@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { faCar, faCompress, faBus } from '@fortawesome/free-solid-svg-icons';
+import { faCompress } from '@fortawesome/free-solid-svg-icons';
 import { mapStyleDefaultJSON, mapStyleSchematicJSON } from '../mapStyles';
+
+import { GoogleOverlay, Overlay, overlaysTable } from '../overlaysTable';
+import { FormControl } from '@angular/forms';
+import { MatOptionSelectionChange } from '@angular/material';
 
 declare var google: any;
 
@@ -12,17 +16,13 @@ declare var google: any;
 export class AppComponent implements OnInit {
   eilatCoords = { lat: 29.554395401332155, lng: 34.949205486964829 };
   mapType: string;
-  trafficLayer: any;
-  transitLayer: any;
   map: any;
-
-  traffic = false;
-  transit = false;
   offCenter = false;
+  overlayCtl = new FormControl();
+  overlaysTable: (Overlay | GoogleOverlay)[] = overlaysTable;
 
-  faCar = faCar;
+  // FontAwesome stuff. It really do be like that sometimes...
   faCompress = faCompress;
-  faBus = faBus;
 
   ngOnInit(): void {
     this.map = new google.maps.Map(document.getElementById('map'), {
@@ -56,10 +56,6 @@ export class AppComponent implements OnInit {
     this.map.setMapTypeId('default');
     this.mapType = 'default';
 
-    // Traffic layer
-    this.trafficLayer = new google.maps.TrafficLayer();
-    this.transitLayer = new google.maps.TransitLayer();
-
     // Map event handlers
     const self = this; // Because EVENT HANDLERS! YAY!
     this.map.addListener('maptypeid_changed', () => { self.mapType = self.map.getMapTypeId(); });
@@ -72,13 +68,9 @@ export class AppComponent implements OnInit {
     this.offCenter = false;
   }
 
-  toggleTraffic(): void {
-    this.trafficLayer.setMap(this.traffic ? null : this.map);
-    this.traffic = !this.traffic;
-  }
-
-  toggleTransit(): void {
-    this.transitLayer.setMap(this.transit ? null : this.map);
-    this.transit = !this.transit;
+  handleOverlayChange(event: MatOptionSelectionChange): void {
+    console.log(event);
+    (event.source.value as Overlay).onChange(this.map, event.source.selected);
+    // (event.value as Overlay).onChange(this.map);
   }
 }
