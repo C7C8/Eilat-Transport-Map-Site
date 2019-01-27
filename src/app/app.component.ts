@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { faCar, faCompress, faBus } from '@fortawesome/free-solid-svg-icons'
-import { mapStyleDefaultJSON, mapStyleSchematicJSON } from '../map_styles';
+import { faCar, faCompress, faBus } from '@fortawesome/free-solid-svg-icons';
+import { mapStyleDefaultJSON, mapStyleSchematicJSON } from '../mapStyles';
 
 declare var google: any;
-let map: any;
 
 @Component({
   selector: 'app-root',
@@ -15,6 +14,7 @@ export class AppComponent implements OnInit {
   mapType: string;
   trafficLayer: any;
   transitLayer: any;
+  map: any;
 
   traffic = false;
   transit = false;
@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
   faBus = faBus;
 
   ngOnInit(): void {
-    map = new google.maps.Map(document.getElementById('map'), {
+    this.map = new google.maps.Map(document.getElementById('map'), {
       center: this.eilatCoords,
       zoom: 14.7,
       restriction: {
@@ -51,9 +51,9 @@ export class AppComponent implements OnInit {
     const mapStyleDefault = new google.maps.StyledMapType(mapStyleDefaultJSON, { name: 'Map' });
     const mapStyleRoadHighlight = new google.maps.StyledMapType(mapStyleSchematicJSON, { name: 'Road Schematic' });
 
-    map.mapTypes.set('default', mapStyleDefault);
-    map.mapTypes.set('road_schematic', mapStyleRoadHighlight);
-    map.setMapTypeId('default');
+    this.map.mapTypes.set('default', mapStyleDefault);
+    this.map.mapTypes.set('road_schematic', mapStyleRoadHighlight);
+    this.map.setMapTypeId('default');
     this.mapType = 'default';
 
     // Traffic layer
@@ -62,23 +62,23 @@ export class AppComponent implements OnInit {
 
     // Map event handlers
     const self = this; // Because EVENT HANDLERS! YAY!
-    map.addListener('maptypeid_changed', () => { self.mapType = map.getMapTypeId(); });
-    map.addListener('center_changed', () => { this.offCenter = true; });
+    this.map.addListener('maptypeid_changed', () => { self.mapType = self.map.getMapTypeId(); });
+    this.map.addListener('center_changed', () => { self.offCenter = true; });
   }
 
   centerMap(): void {
-    map.setCenter(this.eilatCoords);
-    map.setZoom(14.6);
+    this.map.setCenter(this.eilatCoords);
+    this.map.setZoom(14.6);
     this.offCenter = false;
   }
 
   toggleTraffic(): void {
-    this.trafficLayer.setMap(this.traffic ? null : map);
+    this.trafficLayer.setMap(this.traffic ? null : this.map);
     this.traffic = !this.traffic;
   }
 
   toggleTransit(): void {
-    this.transitLayer.setMap(this.transit ? null : map);
+    this.transitLayer.setMap(this.transit ? null : this.map);
     this.transit = !this.transit;
   }
 }
