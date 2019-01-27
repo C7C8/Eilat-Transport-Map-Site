@@ -1,0 +1,108 @@
+@import '~@angular/material/theming';
+@include mat-core()
+
+$md-eilatblue: (
+  50 : #e8f0f8,
+  100 : #c5daee,
+  200 : #9ec2e3,
+  300 : #77aad7,
+  400 : #5a97cf,
+  500 : #3d85c6,
+  600 : #377dc0,
+  700 : #2f72b9,
+  800 : #2768b1,
+  900 : #1a55a4,
+  A100 : #dae9ff,
+  A200 : #a7caff,
+  A400 : #74abff,
+  A700 : #5b9cff,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
+$md-eilataccent: (
+  50 : #eae9f9,
+  100 : #cbc9f0,
+  200 : #a8a5e7,
+  300 : #8581dd,
+  400 : #6a66d5,
+  500 : #504bce,
+  600 : #4944c9,
+  700 : #403bc2,
+  800 : #3733bc,
+  900 : #2723b0,
+  A100 : #edecff,
+  A200 : #bbb9ff,
+  A400 : #8986ff,
+  A700 : #706dff,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #ffffff,
+  )
+);
+
+$md-eilatwarn: (
+  50 : #fff6e8,
+  100 : #ffe7c6,
+  200 : #ffd8a0,
+  300 : #ffc87a,
+  400 : #ffbc5e,
+  500 : #ffb041,
+  600 : #ffa93b,
+  700 : #ffa032,
+  800 : #ff972a,
+  900 : #ff871c,
+  A100 : #ffffff,
+  A200 : #ffffff,
+  A400 : #ffe3cd,
+  A700 : #ffd5b3,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #000000,
+    600 : #000000,
+    700 : #000000,
+    800 : #000000,
+    900 : #000000,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
+$eilat-primary: mat-palette($md-eilatblue);
+$eilat-accent: mat-palette($md-eilataccent);
+$eilat-warn: mat-palette($md-eilatblue);
+
+$eilat-theme: mat-dark-theme($eilat-primary, $eilat-accent, $eilat-warn);
+@include angular-material-theme($eilat-theme);
