@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { faCar, faCompress, faBus } from '@fortawesome/free-solid-svg-icons'
-import { mapStyleDefaultJSON, mapStyleSchematicJSON } from '../map_styles';
+import { faCompress } from '@fortawesome/free-solid-svg-icons';
+import { mapStyleDefaultJSON, mapStyleSchematicJSON } from '../mapStyles';
+
+import { GoogleOverlay, Overlay, overlaysTable } from '../overlaysTable';
+import { FormControl } from '@angular/forms';
+import { MatOptionSelectionChange } from '@angular/material';
 
 declare var google: any;
-let map: any;
 
 @Component({
   selector: 'app-root',
@@ -13,19 +16,16 @@ let map: any;
 export class AppComponent implements OnInit {
   eilatCoords = { lat: 29.554395401332155, lng: 34.949205486964829 };
   mapType: string;
-  trafficLayer: any;
-  transitLayer: any;
-
-  traffic = false;
-  transit = false;
+  map: any;
   offCenter = false;
+  overlayCtl = new FormControl();
+  overlaysTable: (Overlay | GoogleOverlay)[] = overlaysTable;
 
-  faCar = faCar;
+  // FontAwesome stuff. It really do be like that sometimes...
   faCompress = faCompress;
-  faBus = faBus;
 
   ngOnInit(): void {
-    map = new google.maps.Map(document.getElementById('map'), {
+    this.map = new google.maps.Map(document.getElementById('map'), {
       center: this.eilatCoords,
       zoom: 14.7,
       restriction: {
@@ -51,34 +51,29 @@ export class AppComponent implements OnInit {
     const mapStyleDefault = new google.maps.StyledMapType(mapStyleDefaultJSON, { name: 'Map' });
     const mapStyleRoadHighlight = new google.maps.StyledMapType(mapStyleSchematicJSON, { name: 'Road Schematic' });
 
-    map.mapTypes.set('default', mapStyleDefault);
-    map.mapTypes.set('road_schematic', mapStyleRoadHighlight);
-    map.setMapTypeId('default');
+    this.map.mapTypes.set('default', mapStyleDefault);
+    this.map.mapTypes.set('road_schematic', mapStyleRoadHighlight);
+    this.map.setMapTypeId('default');
     this.mapType = 'default';
-
-    // Traffic layer
-    this.trafficLayer = new google.maps.TrafficLayer();
-    this.transitLayer = new google.maps.TransitLayer();
 
     // Map event handlers
     const self = this; // Because EVENT HANDLERS! YAY!
-    map.addListener('maptypeid_changed', () => { self.mapType = map.getMapTypeId(); });
-    map.addListener('center_changed', () => { this.offCenter = true; });
+    this.map.addListener('maptypeid_changed', () => { self.mapType = self.map.getMapTypeId(); });
+    this.map.addListener('center_changed', () => { self.offCenter = true; });
   }
 
   centerMap(): void {
-    map.setCenter(this.eilatCoords);
-    map.setZoom(14.6);
+    this.map.setCenter(this.eilatCoords);
+    this.map.setZoom(14.6);
     this.offCenter = false;
   }
 
-  toggleTraffic(): void {
-    this.trafficLayer.setMap(this.traffic ? null : map);
-    this.traffic = !this.traffic;
-  }
-
-  toggleTransit(): void {
-    this.transitLayer.setMap(this.transit ? null : map);
-    this.transit = !this.transit;
+  // Needed because goig directly through onSelectionChange on its own can't tell the overlay object whether it's
+  // selected or not, and I trust Material to keep state better than the overlays (not that it's an issue...), and
+  // I REALLY don't want overlays handling UI events!
+  //
+  // TL;DR IDK, sue me.
+  handleOverlayChange(event: MatOptionSelectionChange): void {
+    (event.source.value as Overlay).onChange(this.map, event.source.selected);
   }
 }

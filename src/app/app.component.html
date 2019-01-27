@@ -25,17 +25,38 @@
   <div>
     <div id="map"></div>
     <button mat-raised-button (click)="centerMap()" [color]="offCenter ? 'primary' : 'secondary'">
-      <fa-icon [icon]="faCompress"></fa-icon>Re-center</button>
-    <button mat-raised-button (click)="toggleTraffic()" [color]="traffic ? 'primary' : 'secondary'">
-      <fa-icon [icon]="faCar"></fa-icon>
-      <span *ngIf="!traffic">Show traffic</span>
-      <span *ngIf="traffic">Hide traffic</span>
+      <fa-icon [icon]="faCompress"></fa-icon>
+      Re-center
     </button>
-    <button mat-raised-button (click)="toggleTransit()" [color]="transit? 'primary' : 'secondary'">
-      <fa-icon [icon]="faBus"></fa-icon>
-      <span *ngIf="!transit">Show bus stops</span>
-      <span *ngIf="transit">Hide bus stops</span>
-    </button>
+
+    <!-- Overlay selection menu -->
+    <mat-form-field class="overlay-selector">
+      <mat-select placeholder="Map overlays"
+                  [formControl]="overlayCtl"
+                  matTooltipPosition="right"
+                  matTooltip="Select overlays to display on top of the map"
+                  multiple>
+
+        <mat-option *ngFor="let overlay of overlaysTable"
+                    [value]="overlay"
+                    matTooltipPosition="right"
+                    (onSelectionChange)="handleOverlayChange($event)"
+                    [matTooltip]="overlay.tooltip">
+          <fa-icon [icon]="overlay.icon"></fa-icon>
+          {{overlay.name}}
+        </mat-option>
+
+        <!-- Custom "+1 more" display in case of many overlays selected.
+        Shamelessly lifted from the Angular material docs... -->
+        <mat-select-trigger>
+          {{overlayCtl.value?.length > 0 ? overlayCtl.value[0].name : 'Map overlays'}}
+          <span *ngIf="overlayCtl.value?.length > 1" class="trigger-overflow">
+            (+{{overlayCtl.value.length - 1}} {{overlayCtl.value.length === 2 ? "more" : "others"}})
+          </span>
+        </mat-select-trigger>
+      </mat-select>
+    </mat-form-field>
+
   </div>
 
   <div class="side-info">
@@ -72,20 +93,15 @@
     </div>
 
     <!-- Information overlays -->
-    <div *ngIf="traffic">
-      <h3>Traffic overlay</h3>
-      <p>Traffic data is shown as colored lines along the road, on a scale from green to
-      red. The more red the line is &mdash; straight up to dark maroon &mdash; the heavier
-      traffic in that area is.</p>
+    <div *ngFor="let overlay of overlaysTable">
+
+      <!-- Angular won't let me .filter the overlays table, booooooo... -->
+      <div *ngIf="overlay.active">
+        <h3>{{overlay.descName}}</h3>
+        <div [innerHTML]="overlay.description"></div>
+      </div>
     </div>
 
-    <div *ngIf="transit">
-      <h3>Public transit overlay</h3>
-      <p>Public transport is shown, in particular bus stops. Unfortunately the service used to generate
-      this map, the Google Maps API, doesn't have access to Eilat bus routes or timetables, possibly
-        limiting its usefulness to travelers. Google offers a <a href="https://support.google.com/transitpartners">transit partnership
-        program</a> to gather static and live data from cities to better direct travelers and tourists.</p>
-    </div>
   </div>
 </div>
 
