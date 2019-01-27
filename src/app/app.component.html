@@ -24,7 +24,10 @@
 
   <div>
     <div id="map"></div>
-    <button mat-raised-button (click)="centerMap()" [color]="offCenter ? 'primary' : 'secondary'">
+    <button mat-raised-button
+            (click)="centerMap()"
+            [color]="offCenter ? 'primary' : 'secondary'"
+            matTooltip="Zoom out and recenter the city in the center of your view">
       <fa-icon [icon]="faCompress"></fa-icon>
       Re-center
     </button>

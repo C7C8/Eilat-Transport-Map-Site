@@ -102,7 +102,7 @@ $md-eilatwarn: (
 
 $eilat-primary: mat-palette($md-eilatblue);
 $eilat-accent: mat-palette($md-eilataccent);
-$eilat-warn: mat-palette($md-eilatblue);
+$eilat-warn: mat-palette($md-eilatwarn);
 
 $eilat-theme: mat-dark-theme($eilat-primary, $eilat-accent, $eilat-warn);
 @include angular-material-theme($eilat-theme);
