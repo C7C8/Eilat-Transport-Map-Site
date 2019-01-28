@@ -14,13 +14,21 @@ h3 {
   flex: 1 1 auto;
 }
 
+.buttonbar {
+  display: flex;
+  justify-content: space-between;
+
+  .buttonbar-left {
+    margin: auto 0;
+  }
+}
+
 .logo {
   max-width: 1.5em;
   max-height: 1.5em;
 }
 
 .map-container {
-  margin-top: 3em;
   height: 80%;
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;

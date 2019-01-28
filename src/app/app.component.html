@@ -1,4 +1,3 @@
-
 <mat-toolbar>
   <h1>Eilat Interactive Transport Map</h1>
   <span class="toolbar-fill"></span>
@@ -18,50 +17,95 @@
 </mat-toolbar>
 
 <div class="map-container">
+  <!-- Left panel -->
   <div class="side-info">
     <h2>About</h2>
   </div>
 
+  <!-- Center panel -->
   <div>
+    <div class="buttonbar">
+
+      <!-- Map type switching buttons -->
+      <span class="buttonbar-left">
+        <button mat-raised-button
+                (click)="switchMapType('default')"
+                [color]="mapType === 'default' ? 'primary' : 'secondary'"
+                matTooltipPosition="above"
+                matTooltip="Traditional roadmap view">
+          Roadmap
+        </button>
+        <button mat-raised-button
+                (click)="switchMapType('terrain')"
+                [color]="mapType === 'terrain' ? 'primary' : 'secondary'"
+                matTooltipPosition="above"
+                matTooltip="Terrain/contour view">
+          Terrain
+        </button>
+
+        <button mat-raised-button
+                (click)="switchMapType('hybrid')"
+                [color]="mapType === 'hybrid' ? 'primary' : 'secondary'"
+                matTooltipPosition="above"
+                matTooltip="Satellite imagery view">
+          Satellite
+        </button>
+
+        <button mat-raised-button
+                (click)="switchMapType('road_schematic')"
+                [color]="mapType === 'road_schematic' ? 'primary' : 'secondary'"
+                matTooltipPosition="above"
+                matTooltip="Road schematic view">
+          Schematic
+        </button>
+      </span>
+
+      <span class="buttonbar-right">
+        <!-- Overlay selection menu -->
+        <mat-form-field class="overlay-selector">
+          <mat-select placeholder="Map overlays"
+                      [formControl]="overlayCtl"
+                      matTooltipPosition="above"
+                      matTooltip="Select overlays to display on top of the map"
+                      multiple>
+            <mat-option *ngFor="let overlay of overlaysTable"
+                      [value]="overlay"
+                      matTooltipPosition="left"
+                      (onSelectionChange)="handleOverlayChange($event)"
+                      [matTooltip]="overlay.tooltip">
+              <fa-icon [icon]="overlay.icon"></fa-icon>
+              {{overlay.name}}
+            </mat-option>
+
+            <!-- Custom "+1 more" display in case of many overlays selected.
+            Shamelessly lifted from the Angular material docs... -->
+            <mat-select-trigger>
+              {{overlayCtl.value?.length > 0 ? overlayCtl.value[0].name : 'Map overlays'}}
+              <span *ngIf="overlayCtl.value?.length > 1" class="trigger-overflow">
+                (+{{overlayCtl.value.length - 1}} {{overlayCtl.value.length === 2 ? "more" : "others"}})
+              </span>
+            </mat-select-trigger>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Center map button -->
+        <button mat-raised-button
+                (click)="centerMap()"
+                [color]="offCenter ? 'primary' : 'secondary'"
+                matTooltip="Zoom out and recenter the city in the center of your view"
+                matTooltipPosition="above">
+          <fa-icon [icon]="faCompress"></fa-icon>
+          Re-center
+        </button>
+
+      </span>
+    </div>
+
+    <!-- Filled in by the google maps API -->
     <div id="map"></div>
-    <button mat-raised-button
-            (click)="centerMap()"
-            [color]="offCenter ? 'primary' : 'secondary'"
-            matTooltip="Zoom out and recenter the city in the center of your view">
-      <fa-icon [icon]="faCompress"></fa-icon>
-      Re-center
-    </button>
-
-    <!-- Overlay selection menu -->
-    <mat-form-field class="overlay-selector">
-      <mat-select placeholder="Map overlays"
-                  [formControl]="overlayCtl"
-                  matTooltipPosition="right"
-                  matTooltip="Select overlays to display on top of the map"
-                  multiple>
-
-        <mat-option *ngFor="let overlay of overlaysTable"
-                    [value]="overlay"
-                    matTooltipPosition="right"
-                    (onSelectionChange)="handleOverlayChange($event)"
-                    [matTooltip]="overlay.tooltip">
-          <fa-icon [icon]="overlay.icon"></fa-icon>
-          {{overlay.name}}
-        </mat-option>
-
-        <!-- Custom "+1 more" display in case of many overlays selected.
-        Shamelessly lifted from the Angular material docs... -->
-        <mat-select-trigger>
-          {{overlayCtl.value?.length > 0 ? overlayCtl.value[0].name : 'Map overlays'}}
-          <span *ngIf="overlayCtl.value?.length > 1" class="trigger-overflow">
-            (+{{overlayCtl.value.length - 1}} {{overlayCtl.value.length === 2 ? "more" : "others"}})
-          </span>
-        </mat-select-trigger>
-      </mat-select>
-    </mat-form-field>
-
   </div>
 
+  <!-- Right panel -->
   <div class="side-info">
     <h2>What you're seeing:</h2>
 
@@ -75,8 +119,8 @@
     <div *ngIf="mapType === 'terrain'">
       <h3>Terrain view</h3>
       <p>The terrain of the city is shown using shadows and standard topographical
-      mapping techniques, to help aid understanding of how terrain affects transport in the city. If you've never
-      read a topographical map before, <a href="https://www.rei.com/learn/expert-advice/topo-maps-how-to-use.html">
+        mapping techniques, to help aid understanding of how terrain affects transport in the city. If you've never
+        read a topographical map before, <a href="https://www.rei.com/learn/expert-advice/topo-maps-how-to-use.html">
           here's a quick guide.</a>
       </p>
     </div>
@@ -91,8 +135,8 @@
     <div *ngIf="mapType === 'road_schematic'">
       <h3>Schematic view</h3>
       <p>In schematic view, terrain and water are darkened while roads are displayed in yellow for strong
-      visibility. The brighter the road, the bigger or faster it is, so the brightest level corresponds to
-      highways while the darkest is for local roads only.</p>
+        visibility. The brighter the road, the bigger or faster it is, so the brightest level corresponds to
+        highways while the darkest is for local roads only.</p>
     </div>
 
     <!-- Information overlays -->

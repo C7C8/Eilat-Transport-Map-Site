@@ -40,11 +40,8 @@ export class AppComponent implements OnInit {
       streetViewControl: false,
       rotateControl: false,
       fullscreenControl: false,
-      mapTypeControlOptions: {
-        style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-        mapTypeIds: ['default', 'terrain', 'hybrid', 'road_schematic'],
-        position: google.maps.ControlPosition.TOP_LEFT
-      }
+      mapTypeControl: false,
+      zoomControl: false
     });
 
     // Map styling
@@ -60,6 +57,11 @@ export class AppComponent implements OnInit {
     const self = this; // Because EVENT HANDLERS! YAY!
     this.map.addListener('maptypeid_changed', () => { self.mapType = self.map.getMapTypeId(); });
     this.map.addListener('center_changed', () => { self.offCenter = true; });
+  }
+
+  switchMapType(type: string) {
+    this.mapType = type;
+    this.map.setMapTypeId(type);
   }
 
   centerMap(): void {
