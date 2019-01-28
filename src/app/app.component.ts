@@ -1,10 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { faCompress, faRoad, faSatellite, faMountain, faCodeBranch, faCrosshairs } from '@fortawesome/free-solid-svg-icons';
+import { faCompress,
+          faRoad,
+          faSatellite,
+          faMountain,
+          faCodeBranch,
+          faSun,
+          faMoon,
+          faCrosshairs } from '@fortawesome/free-solid-svg-icons';
 import { eilatCoords, mapBounds, mapStyleDefaultJSON, mapStyleSchematicJSON } from '../mapStyles';
 
 import { GoogleOverlay, Overlay, overlaysTable } from '../overlaysTable';
 import { FormControl, Validators } from '@angular/forms';
-import { MatOptionSelectionChange, MatSnackBar, MatSnackBarConfig } from '@angular/material';
+import { MatOptionSelectionChange, MatSlideToggleChange, MatSnackBar, MatSnackBarConfig } from '@angular/material';
 
 declare var google: any;
 
@@ -22,6 +29,7 @@ export class AppComponent implements OnInit {
   overlayCtl = new FormControl();
   searchCtl = new FormControl('', Validators.required);
   overlaysTable: (Overlay | GoogleOverlay)[] = overlaysTable;
+  dark = true;
   snackbarConfig: MatSnackBarConfig = {
     duration: 1500,
     verticalPosition: 'top',
@@ -35,6 +43,8 @@ export class AppComponent implements OnInit {
   faMountain = faMountain;
   faCodeBranch = faCodeBranch;
   faCrosshairs = faCrosshairs;
+  faSun = faSun;
+  faMoon = faMoon;
 
   constructor(private snackbar: MatSnackBar) {
     this.geocoder = new google.maps.Geocoder();
@@ -96,7 +106,8 @@ export class AppComponent implements OnInit {
   }
 
   handleSearchResults(results: any, status: string): void {
-    console.log(status, results);
+    // If the search succeeded, show a snackbar for the found address, zoom & focus on it, and place a marker.
+    // If it didn't, inform the user of the error.
     if (status === 'OK') {
       this.searchCtl.reset('');
       this.snackbar.open('Focusing on ' + results[0].formatted_address, null, this.snackbarConfig);
@@ -107,6 +118,15 @@ export class AppComponent implements OnInit {
       this.marker.setMap(this.map);
     } else {
       this.snackbar.open('Couldn\'t find address within city bounds', null, this.snackbarConfig);
+    }
+  }
+
+  handleThemeChange(event: MatSlideToggleChange) {
+    const body = document.getElementsByTagName('body').item(0);
+    if (event.checked) {
+      body.classList.add('light-theme');
+    } else {
+      body.classList.remove('light-theme');
     }
   }
 }

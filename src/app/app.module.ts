@@ -8,7 +8,7 @@ import {
   MatFormFieldModule,
   MatInputModule,
   MatProgressSpinnerModule,
-  MatSelectModule, MatSnackBarModule,
+  MatSelectModule, MatSlideToggleModule, MatSnackBarModule,
   MatToolbarModule,
   MatTooltipModule
 } from '@angular/material';
@@ -31,6 +31,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatInputModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    MatSlideToggleModule,
     BrowserModule,
     BrowserAnimationsModule,
     FontAwesomeModule

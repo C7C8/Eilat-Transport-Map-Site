@@ -106,3 +106,8 @@ $eilat-warn: mat-palette($md-eilatwarn);
 
 $eilat-theme: mat-dark-theme($eilat-primary, $eilat-accent, $eilat-warn);
 @include angular-material-theme($eilat-theme);
+
+.light-theme {
+  $eilat-light-theme: mat-light-theme($eilat-primary, $eilat-accent, $eilat-warn);
+  @include angular-material-theme($eilat-light-theme);
+}

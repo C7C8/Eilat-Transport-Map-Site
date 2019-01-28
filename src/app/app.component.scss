@@ -34,6 +34,7 @@ h3 {
 .logo {
   max-width: 1.5em;
   max-height: 1.5em;
+  padding-left: 1em;
 }
 
 .map-container {
@@ -67,15 +68,16 @@ fa-icon {
   margin-right: 0.35em;
 }
 
+.theme-toggle {
+  fa-icon {
+    margin-left: 0.5em;
+  }
+}
+
 form {
   mat-form-field {
     margin-left: 1em;
     margin-top: 0.5em;
-  }
-
-  mat-spinner {
-    display: inline-block;
-    margin-right: 0.35em;
   }
 }
 
