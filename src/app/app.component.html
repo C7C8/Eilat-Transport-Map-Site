@@ -98,7 +98,7 @@
             <mat-select-trigger>
               {{overlayCtl.value?.length > 0 ? overlayCtl.value[0].name : 'Map overlays'}}
               <span *ngIf="overlayCtl.value?.length > 1" class="trigger-overflow">
-                (+{{overlayCtl.value.length - 1}} {{overlayCtl.value.length === 2 ? "more" : "others"}})
+                (+{{overlayCtl.value.length - 1}} {{overlayCtl.value.length === 2 ? "other" : "others"}})
               </span>
             </mat-select-trigger>
           </mat-select>

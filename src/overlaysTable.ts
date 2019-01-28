@@ -1,5 +1,6 @@
 import { Icon } from '@fortawesome/fontawesome-svg-core';
-import { faCar, faBus } from '@fortawesome/free-solid-svg-icons';
+import { faCar, faBus, faImage } from '@fortawesome/free-solid-svg-icons';
+import { mapBounds } from './mapStyles';
 declare var google: any;
 
 export interface Overlay {
@@ -9,7 +10,6 @@ export interface Overlay {
   descName?: string;          // Name as shown in description header
   description: string;        // Description as HTML
   tooltip?: string;           // Very short info string about the overlay
-  image?: string;             // Path to image overlay, if applicable.
 
   onChange?(map: any, selected: boolean): void;  // Called if the overlay is toggled.
 }
@@ -50,6 +50,29 @@ export const overlaysTable: (Overlay | GoogleOverlay)[] = [
       program</a> to gather static and live data from cities to better direct travelers and tourists.</p>`,
 
     onChange (map: any, selected: boolean): void {
+      this.active = selected;
+      this.gOverlay.setMap(selected ? map : null);
+    }
+  },
+  {
+    name: 'Overlay demo',
+    icon: faImage,
+    active: false,
+    descName: 'Image overlay demo',
+    tooltip: 'Google maps image overlay demo',
+    gOverlay: new google.maps.GroundOverlay('assets/overlay_demo.png', mapBounds),
+
+    description: `<p>Demonstration image overlay using the google maps API. Good for showing
+      static data such as city zoning or population density information. Images should be follow
+      an aspect ratio of 1970:1613 to fit on the map without stretching, but standard image
+      size is 3940x3226 in order to show overlays without distortion.</p>
+      <p>This image can be used as a guide for calibration of custom overlays -- if you can see
+      red borders and neither the blue 'X' nor the text looks distorted, the overlay is located
+      properly.</p>
+      <p><b>Important TODO: this overlay should be removed before the final version of this site
+      is published!</b></p>`,
+
+    onChange(map: any, selected: boolean): void {
       this.active = selected;
       this.gOverlay.setMap(selected ? map : null);
     }

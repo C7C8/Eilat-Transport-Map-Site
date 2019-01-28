@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faCompress, faRoad, faSatellite, faMountain, faCodeBranch } from '@fortawesome/free-solid-svg-icons';
-import { mapStyleDefaultJSON, mapStyleSchematicJSON } from '../mapStyles';
+import { eilatCoords, mapBounds, mapStyleDefaultJSON, mapStyleSchematicJSON } from '../mapStyles';
 
 import { GoogleOverlay, Overlay, overlaysTable } from '../overlaysTable';
 import { FormControl } from '@angular/forms';
@@ -14,7 +14,6 @@ declare var google: any;
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  eilatCoords = { lat: 29.554395401332155, lng: 34.949205486964829 };
   mapType: string;
   map: any;
   offCenter = false;
@@ -30,15 +29,10 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.map = new google.maps.Map(document.getElementById('map'), {
-      center: this.eilatCoords,
+      center: eilatCoords,
       zoom: 14.7,
       restriction: {
-        latLngBounds: {
-          north: 29.596243,
-          south: 29.515590,
-          east: 34.998930,
-          west: 34.900423
-        },
+        latLngBounds: mapBounds,
         strictBounds: true
       },
       streetViewControl: false,
@@ -69,12 +63,12 @@ export class AppComponent implements OnInit {
   }
 
   centerMap(): void {
-    this.map.setCenter(this.eilatCoords);
+    this.map.setCenter(eilatCoords);
     this.map.setZoom(14.6);
     this.offCenter = false;
   }
 
-  // Needed because goig directly through onSelectionChange on its own can't tell the overlay object whether it's
+  // Needed because going directly through onSelectionChange on its own can't tell the overlay object whether it's
   // selected or not, and I trust Material to keep state better than the overlays (not that it's an issue...), and
   // I REALLY don't want overlays handling UI events!
   //
