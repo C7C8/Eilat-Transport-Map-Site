@@ -117,8 +117,25 @@
       </span>
     </div>
 
-    <!-- Filled in by the google maps API -->
+    <!-- Map; filled in by the google maps API -->
     <div id="map"></div>
+
+    <!-- Geocoding button and search bar -->
+    <form #searchForm="ngForm" (submit)="searchAddress()">
+      <button mat-raised-button
+              [disabled]="searchCtl.invalid"
+              color="primary">
+        <fa-icon [icon]="faCrosshairs"></fa-icon>
+        <!--<mat-spinner diameter=20 *ngIf="searching"></mat-spinner>-->
+        Search
+      </button>
+
+      <mat-form-field>
+        <input matInput
+               placeholder="Address"
+               [formControl]="searchCtl">
+      </mat-form-field>
+    </form>
   </div>
 
   <!-- Right panel -->

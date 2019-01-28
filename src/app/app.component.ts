@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { faCompress, faRoad, faSatellite, faMountain, faCodeBranch } from '@fortawesome/free-solid-svg-icons';
+import { faCompress, faRoad, faSatellite, faMountain, faCodeBranch, faCrosshairs } from '@fortawesome/free-solid-svg-icons';
 import { eilatCoords, mapBounds, mapStyleDefaultJSON, mapStyleSchematicJSON } from '../mapStyles';
 
 import { GoogleOverlay, Overlay, overlaysTable } from '../overlaysTable';
-import { FormControl } from '@angular/forms';
-import { MatOptionSelectionChange } from '@angular/material';
+import { FormControl, Validators } from '@angular/forms';
+import { MatOptionSelectionChange, MatSnackBar, MatSnackBarConfig } from '@angular/material';
 
 declare var google: any;
 
@@ -14,11 +14,19 @@ declare var google: any;
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  geocoder: any;
   mapType: string;
   map: any;
   offCenter = false;
+  marker: any;
   overlayCtl = new FormControl();
+  searchCtl = new FormControl('', Validators.required);
   overlaysTable: (Overlay | GoogleOverlay)[] = overlaysTable;
+  snackbarConfig: MatSnackBarConfig = {
+    duration: 1500,
+    verticalPosition: 'top',
+    horizontalPosition: 'center'
+  };
 
   // FontAwesome stuff. It really do be like that sometimes...
   faCompress = faCompress;
@@ -26,6 +34,11 @@ export class AppComponent implements OnInit {
   faSatellite = faSatellite;
   faMountain = faMountain;
   faCodeBranch = faCodeBranch;
+  faCrosshairs = faCrosshairs;
+
+  constructor(private snackbar: MatSnackBar) {
+    this.geocoder = new google.maps.Geocoder();
+  }
 
   ngOnInit(): void {
     this.map = new google.maps.Map(document.getElementById('map'), {
@@ -66,6 +79,7 @@ export class AppComponent implements OnInit {
     this.map.setCenter(eilatCoords);
     this.map.setZoom(14.6);
     this.offCenter = false;
+    this.marker.setMap(null);
   }
 
   // Needed because going directly through onSelectionChange on its own can't tell the overlay object whether it's
@@ -75,5 +89,24 @@ export class AppComponent implements OnInit {
   // TL;DR IDK, sue me.
   handleOverlayChange(event: MatOptionSelectionChange): void {
     (event.source.value as Overlay).onChange(this.map, event.source.selected);
+  }
+
+  searchAddress(): void {
+    this.geocoder.geocode({ address: this.searchCtl.value, bounds: mapBounds}, this.handleSearchResults.bind(this));
+  }
+
+  handleSearchResults(results: any, status: string): void {
+    console.log(status, results);
+    if (status === 'OK') {
+      this.searchCtl.reset('');
+      this.snackbar.open('Focusing on ' + results[0].formatted_address, null, this.snackbarConfig);
+      const result = results[0].geometry.location;
+      this.map.setCenter(result);
+      this.map.setZoom(17);
+      this.marker = new google.maps.Marker({position: result, title: results[0].formatted_address});
+      this.marker.setMap(this.map);
+    } else {
+      this.snackbar.open('Couldn\'t find address within city bounds', null, this.snackbarConfig);
+    }
   }
 }
