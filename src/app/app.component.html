@@ -110,13 +110,12 @@
     <h2>What you're seeing:</h2>
 
     <!-- Base map styles -->
-    <div *ngIf="mapType === 'default'">
+    <div *ngIf="mapType === 'default'" class="fade">
       <h3>Roadmap view</h3>
       <p>Displayed is a roadmap view of Eilat, with all roads shown clearly, and bodies of water in blue. </p>
-
     </div>
 
-    <div *ngIf="mapType === 'terrain'">
+    <div *ngIf="mapType === 'terrain'" class="fade">
       <h3>Terrain view</h3>
       <p>The terrain of the city is shown using shadows and standard topographical
         mapping techniques, to help aid understanding of how terrain affects transport in the city. If you've never
@@ -125,14 +124,14 @@
       </p>
     </div>
 
-    <div *ngIf="mapType === 'hybrid'">
+    <div *ngIf="mapType === 'hybrid'" class="fade">
       <h3>Hybrid view</h3>
       <p>In hybrid view an undetailed road overlay &amp; important markers are combined with satellite
         imagery. Try switching between this view and roadmap with terrain to help understand Eilat's
         terrain.</p>
     </div>
 
-    <div *ngIf="mapType === 'road_schematic'">
+    <div *ngIf="mapType === 'road_schematic'" class="fade">
       <h3>Schematic view</h3>
       <p>In schematic view, terrain and water are darkened while roads are displayed in yellow for strong
         visibility. The brighter the road, the bigger or faster it is, so the brightest level corresponds to
@@ -143,12 +142,11 @@
     <div *ngFor="let overlay of overlaysTable">
 
       <!-- Angular won't let me .filter the overlays table, booooooo... -->
-      <div *ngIf="overlay.active">
+      <div *ngIf="overlay.active" class="fade">
         <h3>{{overlay.descName}}</h3>
         <div [innerHTML]="overlay.description"></div>
       </div>
     </div>
-
   </div>
 </div>
 
