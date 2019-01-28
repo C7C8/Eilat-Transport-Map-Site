@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { faCompress } from '@fortawesome/free-solid-svg-icons';
+import { faCompress, faRoad, faSatellite, faMountain, faCodeBranch } from '@fortawesome/free-solid-svg-icons';
 import { mapStyleDefaultJSON, mapStyleSchematicJSON } from '../mapStyles';
 
 import { GoogleOverlay, Overlay, overlaysTable } from '../overlaysTable';
@@ -23,6 +23,10 @@ export class AppComponent implements OnInit {
 
   // FontAwesome stuff. It really do be like that sometimes...
   faCompress = faCompress;
+  faRoad = faRoad;
+  faSatellite = faSatellite;
+  faMountain = faMountain;
+  faCodeBranch = faCodeBranch;
 
   ngOnInit(): void {
     this.map = new google.maps.Map(document.getElementById('map'), {

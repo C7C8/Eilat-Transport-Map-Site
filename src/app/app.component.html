@@ -45,6 +45,7 @@
                 [color]="mapType === 'default' ? 'primary' : 'secondary'"
                 matTooltipPosition="above"
                 matTooltip="Traditional roadmap view">
+          <fa-icon [icon]="faRoad"></fa-icon>
           Roadmap
         </button>
         <button mat-raised-button
@@ -52,6 +53,7 @@
                 [color]="mapType === 'terrain' ? 'primary' : 'secondary'"
                 matTooltipPosition="above"
                 matTooltip="Terrain/contour view">
+          <fa-icon [icon]="faMountain"></fa-icon>
           Terrain
         </button>
 
@@ -60,6 +62,7 @@
                 [color]="mapType === 'hybrid' ? 'primary' : 'secondary'"
                 matTooltipPosition="above"
                 matTooltip="Satellite imagery view">
+          <fa-icon [icon]="faSatellite"></fa-icon>
           Satellite
         </button>
 
@@ -68,6 +71,7 @@
                 [color]="mapType === 'road_schematic' ? 'primary' : 'secondary'"
                 matTooltipPosition="above"
                 matTooltip="Road schematic view">
+          <fa-icon [icon]="faCodeBranch"></fa-icon>
           Schematic
         </button>
       </span>
