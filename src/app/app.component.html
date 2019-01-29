@@ -1,67 +1,78 @@
-<mat-toolbar>
-  <h1>Eilat Transportation &amp; Interactive Map</h1>
-  <span class="toolbar-fill"></span>
-  <a href="https://wpi.edu">
-    <img src="assets/wpi_small.png"
-         alt="WPI Logo"
-         class="logo">
-  </a>
-  <span style="padding-left: 1em"></span>
-  <a href="https://eilat.city">
-    <img src="assets/eilat.svg"
-         alt="Eilat logo"
-         class="logo">
-  </a>
-</mat-toolbar>
+<div class="content-container">
+  <mat-toolbar>
+    <h1>Eilat Transportation &amp; Interactive Map</h1>
+    <span class="toolbar-fill"></span>
+    <a href="https://wpi.edu">
+      <img src="assets/wpi_small.png"
+           alt="WPI Logo"
+           class="logo">
+    </a>
+    <span style="padding-left: 1em"></span>
+    <a href="https://eilat.city">
+      <img src="assets/eilat.svg"
+           alt="Eilat logo"
+           class="logo">
+    </a>
+  </mat-toolbar>
 
-<mat-tab-group>
-  <!-- ng-template used for lazy loading so we don't pull tables and stuff if we don't need to -->
-  <mat-tab>
-    <ng-template mat-tab-label>
-      <fa-icon [icon]="faMap"></fa-icon>
-      Map
-    </ng-template>
+  <div class="content">
+    <mat-tab-group>
+      <!-- ng-template used for lazy loading so we don't pull tables and stuff if we don't need to -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <fa-icon [icon]="faMap"></fa-icon>
+          Map
+        </ng-template>
 
-    <!-- Unbelievably, this MUST be put here in the first tab. Angular is REALLY picky about how and
-    when it assigns that ID (in the mapId param) to the div contained inside the map; if the rest of
-    the site loads before this does, the API will fail to load when you switch to the tab with the map.
-    This is probably fixable by wrapping it in an <ng-template matTabContent> for lazy loading, but
-    it makes the animations less pretty, so it's not worth "fixing". Besides, the map should be the
-    first thing visible, right?-->
-    <app-map mapId="map1"></app-map>
-  </mat-tab>
+        <!-- Unbelievably, this MUST be put here in the first tab. Angular is REALLY picky about how and
+		when it assigns that ID (in the mapId param) to the div contained inside the map; if the rest of
+		the site loads before this does, the API will fail to load when you switch to the tab with the map.
+		This is probably fixable by wrapping it in an <ng-template matTabContent> for lazy loading, but
+		it makes the animations less pretty, so it's not worth "fixing". Besides, the map should be the
+		first thing visible, right?-->
+        <app-map mapId="map1"></app-map>
+      </mat-tab>
 
-  <mat-tab>
-    <ng-template mat-tab-label>
-      <fa-icon [icon]="faPlaneArrival"></fa-icon>
-      Flights
-    </ng-template>
-    <app-flights></app-flights>
-  </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <fa-icon [icon]="faPlaneArrival"></fa-icon>
+          Flights
+        </ng-template>
+        <app-flights></app-flights>
+      </mat-tab>
 
-  <mat-tab>
-    <ng-template mat-tab-label>
-      <fa-icon [icon]="faShip"></fa-icon>
-      Ships
-    </ng-template>
-    <app-ships></app-ships>
-  </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <fa-icon [icon]="faShip"></fa-icon>
+          Ships
+        </ng-template>
+        <app-ships></app-ships>
+      </mat-tab>
 
-  <mat-tab>
-    <ng-template mat-tab-label>
-      <fa-icon [icon]="faChartBar"></fa-icon>
-      Analysis
-    </ng-template>
-    <app-analysis></app-analysis>
-  </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <fa-icon [icon]="faChartBar"></fa-icon>
+          Analysis
+        </ng-template>
+        <app-analysis></app-analysis>
+      </mat-tab>
 
-  <mat-tab>
-    <ng-template mat-tab-label>
-      <fa-icon [icon]="faInfoCircle"></fa-icon>
-      Acknowledgments
-    </ng-template>
-    <app-about></app-about>
-  </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <fa-icon [icon]="faInfoCircle"></fa-icon>
+          Acknowledgments
+        </ng-template>
+        <app-about></app-about>
+      </mat-tab>
 
+    </mat-tab-group>
+  </div>
 
-</mat-tab-group>
+  <footer>
+    <span class="theme-toggle" matTooltip="Switch light/dark theme">
+      <fa-icon [icon]="faMoon"></fa-icon>
+      <mat-slide-toggle (change)="handleThemeChange($event)"></mat-slide-toggle>
+      <fa-icon [icon]="faSun"></fa-icon>
+    </span>
+  </footer>
+</div>

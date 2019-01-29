@@ -12,7 +12,7 @@
   <div>
     <div class="buttonbar">
 
-      <!-- Map type switching buttons, dark/light mode -->
+      <!-- Map type switching buttons -->
       <span class="buttonbar-left">
         <button mat-raised-button
                 (click)="switchMapType('default')"
@@ -49,11 +49,6 @@
           Schematic
         </button>
 
-        <span class="theme-toggle" matTooltip="Switch light/dark theme">
-          <fa-icon [icon]="faMoon"></fa-icon>
-          <mat-slide-toggle (change)="handleThemeChange($event)"></mat-slide-toggle>
-          <fa-icon [icon]="faSun"></fa-icon>
-        </span>
       </span>
 
       <span class="buttonbar-right">

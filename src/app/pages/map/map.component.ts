@@ -11,7 +11,7 @@ import { eilatCoords, mapBounds, mapStyleDefaultJSON, mapStyleSchematicJSON } fr
 
 import { GoogleOverlay, Overlay, overlaysTable } from '../../../overlaysTable';
 import { FormControl, Validators } from '@angular/forms';
-import { MatOptionSelectionChange, MatSlideToggleChange, MatSnackBar, MatSnackBarConfig } from '@angular/material';
+import { MatOptionSelectionChange, MatSnackBar, MatSnackBarConfig } from '@angular/material';
 
 declare var google: any;
 
@@ -122,12 +122,5 @@ export class MapComponent implements AfterViewInit {
     }
   }
 
-  handleThemeChange(event: MatSlideToggleChange) {
-    const body = document.getElementsByTagName('body').item(0);
-    if (event.checked) {
-      body.classList.add('light-theme');
-    } else {
-      body.classList.remove('light-theme');
-    }
-  }
+
 }
