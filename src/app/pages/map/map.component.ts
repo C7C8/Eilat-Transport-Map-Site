@@ -55,7 +55,7 @@ export class MapComponent implements AfterViewInit {
     console.log(this.mapId, document.getElementById(this.mapId));
     this.map = new google.maps.Map(document.getElementById(this.mapId), {
       center: eilatCoords,
-      zoom: 14.7,
+      zoom: 14.6,
       restriction: {
         latLngBounds: mapBounds,
         strictBounds: true
