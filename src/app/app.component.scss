@@ -37,13 +37,12 @@ h3 {
 }
 
 .map-container {
-  height: 80%;
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
 }
 
 #map {
-  height: 100%;
+  padding-top: 75%;
 }
 
 .side-info {
