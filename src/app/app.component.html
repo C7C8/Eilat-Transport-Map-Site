@@ -4,15 +4,13 @@
   <a href="https://wpi.edu">
     <img src="assets/wpi.png"
          alt="WPI Logo"
-         class="logo"
-         matTooltip="Built by students from Worcester Polytechnic Institute">
+         class="logo">
   </a>
   <span style="padding-left: 1em"></span>
   <a href="https://eilat.city">
     <img src="assets/eilat.png"
          alt="Eilat logo"
-         class="logo"
-         matTooltip="Made possible by the city of Eilat. Thank you!">
+         class="logo">
   </a>
 </mat-toolbar>
 
@@ -23,6 +21,13 @@
       <fa-icon [icon]="faMap"></fa-icon>
       Map
     </ng-template>
+
+    <!-- Unbelievably, this MUST be put here in the first tab. Angular is REALLY picky about how and
+    when it assigns that ID (in the mapId param) to the div contained inside the map; if the rest of
+    the site loads before this does, the API will fail to load when you switch to the tab with the map.
+    This is probably fixable by wrapping it in an <ng-template matTabContent> for lazy loading, but
+    it makes the animations less pretty, so it's not worth "fixing". Besides, the map should be the
+    first thing visible, right?-->
     <app-map mapId="map1"></app-map>
   </mat-tab>
 
@@ -53,7 +58,7 @@
   <mat-tab>
     <ng-template mat-tab-label>
       <fa-icon [icon]="faInfoCircle"></fa-icon>
-      About &amp; Acknowledgments
+      Acknowledgments
     </ng-template>
     <app-about></app-about>
   </mat-tab>
