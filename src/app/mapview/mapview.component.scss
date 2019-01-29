@@ -1,0 +1,59 @@
+::ng-deep a {
+  text-decoration: none;
+  color: #3d85c6;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+  font-size: 1.1em;
+}
+
+::ng-deep p {
+  margin-top: 0.25em;
+}
+
+.buttonbar {
+  display: flex;
+  justify-content: space-between;
+
+  .buttonbar-left {
+    margin: auto 0;
+  }
+}
+
+.map-container {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+}
+
+.map {
+  padding-top: 75%; // 4:3 ratio
+}
+
+.side-info {
+  padding: 0 2em;
+}
+
+.overlay-selector {
+  margin: 0.25em 1em;
+}
+
+.trigger-overflow {
+  font-size: 0.75em;
+  opacity: 0.75;
+}
+
+fa-icon {
+  margin-right: 0.35em;
+}
+
+.theme-toggle {
+  fa-icon {
+    margin-left: 0.5em;
+  }
+}
+
+form {
+  mat-form-field {
+    margin-left: 1em;
+    margin-top: 0.5em;
+  }
+}

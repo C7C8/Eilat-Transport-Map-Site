@@ -39,5 +39,4 @@ testem.log
 Thumbs.db
 *.map
 *.css
-src/.sass-cache
-src/app/.sass-cache
+*.sass-cache*

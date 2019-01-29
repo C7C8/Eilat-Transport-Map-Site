@@ -15,10 +15,12 @@ import {
 
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MapviewComponent } from './mapview/mapview.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MapviewComponent
   ],
   imports: [
     MatToolbarModule,
