@@ -63,12 +63,8 @@ export const overlaysTable: (Overlay | GoogleOverlay)[] = [
     gOverlay: new google.maps.GroundOverlay('assets/overlay_demo.png', mapBounds),
 
     description: `<p>Demonstration image overlay using the google maps API. Good for showing
-      static data such as city zoning or population density information. Images should be follow
-      an aspect ratio of 1970:1613 to fit on the map without stretching, but standard image
-      size is 3940x3226 in order to show overlays without distortion.</p>
-      <p>This image can be used as a guide for calibration of custom overlays -- if you can see
-      red borders and neither the blue 'X' nor the text looks distorted, the overlay is located
-      properly.</p>
+      static data such as city zoning or population density information. Images should be sized
+      at 3427x3226 with a transparent background in order to show overlays without distortion.</p>
       <p><b>Important TODO: this overlay should be removed before the final version of this site
       is published!</b></p>`,
 
