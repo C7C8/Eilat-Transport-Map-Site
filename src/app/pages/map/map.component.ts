@@ -9,18 +9,18 @@ import { faCompress,
           faCrosshairs } from '@fortawesome/free-solid-svg-icons';
 import { eilatCoords, mapBounds, mapStyleDefaultJSON, mapStyleSchematicJSON } from './mapStyles';
 
-import { GoogleOverlay, Overlay, overlaysTable } from '../../overlaysTable';
+import { GoogleOverlay, Overlay, overlaysTable } from '../../../overlaysTable';
 import { FormControl, Validators } from '@angular/forms';
 import { MatOptionSelectionChange, MatSlideToggleChange, MatSnackBar, MatSnackBarConfig } from '@angular/material';
 
 declare var google: any;
 
 @Component({
-  selector: 'app-mapview',
-  templateUrl: './mapview.component.html',
-  styleUrls: ['./mapview.component.scss']
+  selector: 'app-map',
+  templateUrl: './map.component.html',
+  styleUrls: ['./map.component.scss']
 })
-export class MapviewComponent implements AfterViewInit {
+export class MapComponent implements AfterViewInit {
   @Input() mapId: string;
   geocoder: any;
   mapType = 'default';

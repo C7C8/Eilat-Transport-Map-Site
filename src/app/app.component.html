@@ -1,19 +1,62 @@
 <mat-toolbar>
-  <h1>Eilat Interactive Transport Map</h1>
+  <h1>Eilat Transportation &amp; Interactive Map</h1>
   <span class="toolbar-fill"></span>
   <a href="https://wpi.edu">
     <img src="assets/wpi.png"
          alt="WPI Logo"
          class="logo"
-         matTooltip="Built for Eilat by students from Worcester Polytechnic Institute">
+         matTooltip="Built by students from Worcester Polytechnic Institute">
   </a>
   <span style="padding-left: 1em"></span>
   <a href="https://eilat.city">
     <img src="assets/eilat.png"
          alt="Eilat logo"
          class="logo"
-         matTooltip="Sponsored by the city of Eilat. Thank you!">
+         matTooltip="Made possible by the city of Eilat. Thank you!">
   </a>
 </mat-toolbar>
 
-<app-mapview mapId="map1"></app-mapview>
+<mat-tab-group>
+  <!-- ng-template used for lazy loading so we don't pull tables and stuff if we don't need to -->
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <fa-icon [icon]="faMap"></fa-icon>
+      Map
+    </ng-template>
+    <app-map mapId="map1"></app-map>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <fa-icon [icon]="faPlaneArrival"></fa-icon>
+      Flights
+    </ng-template>
+    <app-flights></app-flights>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <fa-icon [icon]="faShip"></fa-icon>
+      Ships
+    </ng-template>
+    <app-ships></app-ships>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <fa-icon [icon]="faChartBar"></fa-icon>
+      Analysis
+    </ng-template>
+    <app-analysis></app-analysis>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <fa-icon [icon]="faInfoCircle"></fa-icon>
+      About &amp; Acknowledgments
+    </ng-template>
+    <app-about></app-about>
+  </mat-tab>
+
+
+</mat-tab-group>
