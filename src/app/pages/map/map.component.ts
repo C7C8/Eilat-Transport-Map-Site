@@ -51,8 +51,6 @@ export class MapComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    console.log('Id:');
-    console.log(this.mapId, document.getElementById(this.mapId));
     this.map = new google.maps.Map(document.getElementById(this.mapId), {
       center: eilatCoords,
       zoom: 14.6,
