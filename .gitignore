@@ -40,3 +40,4 @@ Thumbs.db
 *.map
 *.css
 *.sass-cache*
+environment.*ts
