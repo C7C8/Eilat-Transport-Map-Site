@@ -21,6 +21,8 @@ import { FlightsComponent } from './pages/flights/flights.component';
 import { ShipsComponent } from './pages/ships/ships.component';
 import { AnalysisComponent } from './pages/analysis/analysis.component';
 import { AboutComponent } from './pages/about/about.component';
+import { AgmCoreModule } from '@agm/core';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,10 @@ import { AboutComponent } from './pages/about/about.component';
     MatTabsModule,
     BrowserModule,
     BrowserAnimationsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    AgmCoreModule.forRoot({
+      apiKey: environment.googleApiKey
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

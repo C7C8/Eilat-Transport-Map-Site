@@ -28,8 +28,9 @@ button {
   grid-template-columns: 1fr 3fr 1fr;
 }
 
-.map {
-  padding-top: 67%; // A little wider than a 4:3 ratio
+agm-map {
+  height: 600px;
+  //padding-top: 67%; // A little wider than a 4:3 ratio
 }
 
 .side-info {

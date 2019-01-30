@@ -2,6 +2,8 @@
 * stored as a JS object. Having this stuff stored inside the main app module is
 * totally inappropriate, so all the styles are stored here instead. */
 
+import { LatLngBoundsLiteral, LatLngLiteral } from '@agm/core';
+
 export const mapStyleDefaultJSON: any = [
   {
     'elementType': 'geometry',
@@ -524,14 +526,14 @@ export const mapStyleSchematicJSON: any = [
 ];
 
 // Stored constants for the map bounds and eilat center since they're needed in multiple places
-export const mapBounds: any = {
+export const mapBounds: LatLngBoundsLiteral = {
   north: 29.596243,
   south: 29.515590,
   east: 34.998930,
   west: 34.900423
 };
 
-export const eilatCoords: any = {
+export const eilatCoords: LatLngLiteral = {
   lat: 29.554395401332155,
   lng: 34.949205486964829
 };

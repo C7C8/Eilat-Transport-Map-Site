@@ -1,7 +1,7 @@
 import { Icon } from '@fortawesome/fontawesome-svg-core';
 import { faCar, faBus, faImage } from '@fortawesome/free-solid-svg-icons';
 import { mapBounds } from './app/pages/map/mapStyles';
-declare var google: any;
+// declare var google: any;
 
 export interface Overlay {
   name: string;               // Name as shown in overlay navigator
@@ -25,7 +25,7 @@ export const overlaysTable: (Overlay | GoogleOverlay)[] = [
     active: false,
     descName: 'Traffic overlay',
     tooltip: 'Highlight congestion along city roads.',
-    gOverlay: new google.maps.TrafficLayer(),
+    // gOverlay: new google.maps.TrafficLayer(),
 
     description: `<p>Traffic data is shown as colored lines along the road, on a scale from green
       to red. The more red the line is &mdash; straight up to dark maroon &mdash; the heavier traffic in that
@@ -33,7 +33,7 @@ export const overlaysTable: (Overlay | GoogleOverlay)[] = [
 
     onChange(map: any, selected: boolean): void {
       this.active = selected;
-      this.gOverlay.setMap(selected ? map : null);
+      // this.gOverlay.setMap(selected ? map : null);
     },
   },
   {
@@ -42,7 +42,7 @@ export const overlaysTable: (Overlay | GoogleOverlay)[] = [
     active: false,
     descName: 'Bus stop overlay',
     tooltip: 'Show bus stops within the city',
-    gOverlay: new google.maps.TransitLayer(),
+    // gOverlay: new google.maps.TransitLayer(),
 
     description: `<p>Public transport is shown, in particular bus stops. Unfortunately, the service used to
       generate this map, the Google Maps API, doesn't have access to Eilat bus routes or timetables, possibly
@@ -51,7 +51,7 @@ export const overlaysTable: (Overlay | GoogleOverlay)[] = [
 
     onChange (map: any, selected: boolean): void {
       this.active = selected;
-      this.gOverlay.setMap(selected ? map : null);
+      // this.gOverlay.setMap(selected ? map : null);
     }
   },
   {
@@ -60,7 +60,7 @@ export const overlaysTable: (Overlay | GoogleOverlay)[] = [
     active: false,
     descName: 'Image overlay demo',
     tooltip: 'Google maps image overlay demo',
-    gOverlay: new google.maps.GroundOverlay('assets/overlay_demo.png', mapBounds),
+    // gOverlay: new google.maps.GroundOverlay('assets/overlay_demo.png', mapBounds),
 
     description: `<p>Demonstration image overlay using the google maps API. Good for showing
       static data such as city zoning or population density information. Images should be sized
@@ -70,7 +70,7 @@ export const overlaysTable: (Overlay | GoogleOverlay)[] = [
 
     onChange(map: any, selected: boolean): void {
       this.active = selected;
-      this.gOverlay.setMap(selected ? map : null);
+      // this.gOverlay.setMap(selected ? map : null);
     }
   }
 ];

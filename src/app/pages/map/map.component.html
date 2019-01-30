@@ -92,8 +92,16 @@
       </span>
     </div>
 
-    <!-- Map; filled in by the google maps API -->
-    <div class="map" [id]="mapId"></div>
+    <agm-map [longitude]="eilatCoords.lng"
+             [latitude]="eilatCoords.lat"
+             [streetViewControl]="false"
+             [rotateControl]="false"
+             [fullscreenControl]="false"
+             [mapTypeControl]="false"
+             [zoomControl]="false"
+             [zoom]="14.6"
+    ></agm-map>
+
 
     <!-- Geocoding button and search bar -->
     <form #searchForm="ngForm" (submit)="searchAddress()">

@@ -1,4 +1,4 @@
-import { Component, Input, AfterViewInit} from '@angular/core';
+import { Component, Input, AfterViewInit, ViewChild } from '@angular/core';
 import { faCompress,
           faRoad,
           faSatellite,
@@ -12,8 +12,9 @@ import { eilatCoords, mapBounds, mapStyleDefaultJSON, mapStyleSchematicJSON } fr
 import { GoogleOverlay, Overlay, overlaysTable } from '../../../overlaysTable';
 import { FormControl, Validators } from '@angular/forms';
 import { MatOptionSelectionChange, MatSnackBar, MatSnackBarConfig } from '@angular/material';
+import { AgmMap, MapTypeStyle } from '@agm/core';
 
-declare var google: any;
+// declare var google: any;
 
 @Component({
   selector: 'app-map',
@@ -22,14 +23,17 @@ declare var google: any;
 })
 export class MapComponent implements AfterViewInit {
   @Input() mapId: string;
+  @ViewChild(AgmMap) map;
   geocoder: any;
   mapType = 'default';
-  map: any;
+  // map: any;
   offCenter = false;
   marker: any;
   overlayCtl = new FormControl();
   searchCtl = new FormControl('', Validators.required);
   overlaysTable: (Overlay | GoogleOverlay)[] = overlaysTable;
+  eilatCoords = eilatCoords;
+  mapBounds = mapBounds;
   snackbarConfig: MatSnackBarConfig = {
     duration: 1500,
     verticalPosition: 'top',
@@ -47,50 +51,50 @@ export class MapComponent implements AfterViewInit {
   faMoon = faMoon;
 
   constructor(private snackbar: MatSnackBar) {
-    this.geocoder = new google.maps.Geocoder();
+    // this.geocoder = new google.maps.Geocoder();
+    // const mapStyleDefault: MapTypeStyle = new MapTypeSt(mapStyleDefaultJSON, { name: 'Map' });
+    // const mapStyleRoadHighlight = new google.maps.StyledMapType(mapStyleSchematicJSON, { name: 'Road Schematic' });
   }
 
   ngAfterViewInit(): void {
-    console.log('Id:');
-    console.log(this.mapId, document.getElementById(this.mapId));
-    this.map = new google.maps.Map(document.getElementById(this.mapId), {
-      center: eilatCoords,
-      zoom: 14.6,
-      restriction: {
-        latLngBounds: mapBounds,
-        strictBounds: true
-      },
-      streetViewControl: false,
-      rotateControl: false,
-      fullscreenControl: false,
-      mapTypeControl: false,
-      zoomControl: false
-    });
+    this.map.fitBounds = mapBounds;
+    // console.log(this.mapId, document.getElementById(this.mapId));
+    // this.map = new google.maps.Map(document.getElementById(this.mapId), {
+    //   center: eilatCoords,
+    //   zoom: 14.6,
+    //   restriction: {
+    //     latLngBounds: mapBounds,
+    //     strictBounds: true
+    //   },
+    //   streetViewControl: false,
+    //   rotateControl: false,
+    //   fullscreenControl: false,
+    //   mapTypeControl: false,
+    //   zoomControl: false
+    // });
 
     // Map styling
-    const mapStyleDefault = new google.maps.StyledMapType(mapStyleDefaultJSON, { name: 'Map' });
-    const mapStyleRoadHighlight = new google.maps.StyledMapType(mapStyleSchematicJSON, { name: 'Road Schematic' });
 
-    this.map.mapTypes.set('default', mapStyleDefault);
-    this.map.mapTypes.set('road_schematic', mapStyleRoadHighlight);
-    this.map.setMapTypeId('default');
+    // this.map.mapTypes.set('default', mapStyleDefault);
+    // this.map.mapTypes.set('road_schematic', mapStyleRoadHighlight);
+    // this.map.setMapTypeId('default');
 
     // Map event handlers
-    const self = this; // Because EVENT HANDLERS! YAY!
-    this.map.addListener('maptypeid_changed', () => { self.mapType = self.map.getMapTypeId(); });
-    this.map.addListener('center_changed', () => { self.offCenter = true; });
+    // const self = this; // Because EVENT HANDLERS! YAY!
+    // this.map.addListener('maptypeid_changed', () => { self.mapType = self.map.getMapTypeId(); });
+    // this.map.addListener('center_changed', () => { self.offCenter = true; });
   }
 
   switchMapType(type: string) {
     this.mapType = type;
-    this.map.setMapTypeId(type);
+    // this.map.setMapTypeId(type);
   }
 
   centerMap(): void {
-    this.map.setCenter(eilatCoords);
-    this.map.setZoom(14.6);
-    this.offCenter = false;
-    this.marker.setMap(null);
+    // this.map.setCenter(eilatCoords);
+    // this.map.setZoom(14.6);
+    // this.offCenter = false;
+    // this.marker.setMap(null);
   }
 
   // Needed because going directly through onSelectionChange on its own can't tell the overlay object whether it's
@@ -99,27 +103,27 @@ export class MapComponent implements AfterViewInit {
   //
   // TL;DR IDK, sue me.
   handleOverlayChange(event: MatOptionSelectionChange): void {
-    (event.source.value as Overlay).onChange(this.map, event.source.selected);
+    // (event.source.value as Overlay).onChange(this.map, event.source.selected);
   }
 
   searchAddress(): void {
-    this.geocoder.geocode({ address: this.searchCtl.value, bounds: mapBounds}, this.handleSearchResults.bind(this));
+    // this.geocoder.geocode({ address: this.searchCtl.value, bounds: mapBounds}, this.handleSearchResults.bind(this));
   }
 
   handleSearchResults(results: any, status: string): void {
-    // If the search succeeded, show a snackbar for the found address, zoom & focus on it, and place a marker.
-    // If it didn't, inform the user of the error.
-    if (status === 'OK') {
-      this.searchCtl.reset('');
-      this.snackbar.open('Focusing on ' + results[0].formatted_address, null, this.snackbarConfig);
-      const result = results[0].geometry.location;
-      this.map.setCenter(result);
-      this.map.setZoom(17);
-      this.marker = new google.maps.Marker({position: result, title: results[0].formatted_address});
-      this.marker.setMap(this.map);
-    } else {
-      this.snackbar.open('Couldn\'t find address within city bounds', null, this.snackbarConfig);
-    }
+    // // If the search succeeded, show a snackbar for the found address, zoom & focus on it, and place a marker.
+    // // If it didn't, inform the user of the error.
+    // if (status === 'OK') {
+    //   this.searchCtl.reset('');
+    //   this.snackbar.open('Focusing on ' + results[0].formatted_address, null, this.snackbarConfig);
+    //   const result = results[0].geometry.location;
+    //   this.map.setCenter(result);
+    //   this.map.setZoom(17);
+    //   this.marker = new google.maps.Marker({position: result, title: results[0].formatted_address});
+    //   this.marker.setMap(this.map);
+    // } else {
+    //   this.snackbar.open('Couldn\'t find address within city bounds', null, this.snackbarConfig);
+    // }
   }
 
 
