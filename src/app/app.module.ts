@@ -18,6 +18,7 @@ import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MapComponent } from './pages/map/map.component';
 import { FlightsComponent } from './pages/flights/flights.component';
+import { ShipsComponent } from './pages/ships/ships.component';
 import { AnalysisComponent } from './pages/analysis/analysis.component';
 import { AboutComponent } from './pages/about/about.component';
 
@@ -26,6 +27,7 @@ import { AboutComponent } from './pages/about/about.component';
     AppComponent,
     MapComponent,
     FlightsComponent,
+    ShipsComponent,
     AnalysisComponent,
     AboutComponent,
   ],
