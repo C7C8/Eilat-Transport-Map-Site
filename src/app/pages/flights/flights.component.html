@@ -1,34 +1,62 @@
 <h2>Flights</h2>
 
-<div class="table-container">
-  <table mat-table [dataSource]="flights" matSort>
-    <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+<div class="container">
+  <div class="flight-info">
+    <h3>Air Transport to Eilat</h3>
+    <p>Eilat sees many flights come in per day through three separate airports: Eilat Airport, Ramon Airport,
+      and Ovda Airport.</p>
 
-    <ng-container matColumnDef="airlineCode">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Flight</th>
-      <td mat-cell *matCellDef="let flight">{{flight.airlineCode}}{{flight.flightNumber}}</td>
-    </ng-container>
+    <p><a href="http://www.iaa.gov.il/en-US/airports/eilatn/Pages/default.aspx">Eilat Airport</a> is a small airport
+      close to the center of the city, with one small runway and ramp space for only two aircraft. The airport
+      handles mostly regional flights from other airports in Israel, with
+      <a href="http://www.iaa.gov.il/en-US/airports/ovda/Pages/default.aspx">Ovda Airport</a> handling most international
+      flights. Ovda is technically a military airbase, but it handles civilian air traffic since larger aircraft on
+      international flights can't land on Eilat's runway.</p>
 
-    <ng-container matColumnDef="arrival">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Arrival</th>
-      <td mat-cell *matCellDef="let flight">{{flight.arrival * 1000 | date:'medium':'+0200'}}</td>
-    </ng-container>
+    <p><a href="http://www.ramon-airport.com/">Ramon Airport</a> was built to address various concerns,
+      such as opening land up in Eilat for further development, decreasing reliance on Ovda Airport,
+      handling more air traffic, and so on. The airport opened January 2019 and can handle 2 million
+      passengers per year (~66% of Eilat's yearly tourist traffic) but will later be expanded to accommodate
+      4 million/year. Eilat Airport is expected to shut down March 2019, and Ovda is expected to stop
+      handling civilian traffic.</p>
 
-    <ng-container matColumnDef="airline">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Airline</th>
-      <td mat-cell *matCellDef="let flight">{{flight.airline}}</td>
-    </ng-container>
+    <h3>Air Traffic</h3>
+    <p>The table on the right shows up to 250 flights that <em>arrived</em> at any of the three airports,
+      along with where they came from in order to get a better idea of where most air traffic is coming
+      from.</p>
+  </div>
 
-    <ng-container matColumnDef="srcAirport">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Departure Airport</th>
-      <td mat-cell *matCellDef="let flight">{{flight.srcAirport}}</td>
-    </ng-container>
+  <div class="table-container">
+    <h3>Table of Flights</h3>
+    <table mat-table [dataSource]="flights" matSort>
+      <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
 
-    <ng-container matColumnDef="srcCity">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Departure City</th>
-      <td mat-cell *matCellDef="let flight">{{flight.srcCity}}, {{flight.srcCountry}}</td>
-    </ng-container>
-  </table>
-  <mat-paginator [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons></mat-paginator>
+      <ng-container matColumnDef="airlineCode">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Flight</th>
+        <td mat-cell *matCellDef="let flight">{{flight.airlineCode}}{{flight.flightNumber}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="arrival">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Arrival</th>
+        <td mat-cell *matCellDef="let flight">{{flight.arrival * 1000 | date:'medium':'+0200'}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="airline">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Airline</th>
+        <td mat-cell *matCellDef="let flight">{{flight.airline}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="srcAirport">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Departure Airport</th>
+        <td mat-cell *matCellDef="let flight">{{flight.srcAirport}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="srcCity">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Departure City</th>
+        <td mat-cell *matCellDef="let flight">{{flight.srcCity}}, {{flight.srcCountry}}</td>
+      </ng-container>
+    </table>
+    <mat-paginator [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons></mat-paginator>
+  </div>
 </div>

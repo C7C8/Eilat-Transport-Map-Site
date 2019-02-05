@@ -1,12 +1,13 @@
-.mat-cell {
-  //padding-right: 2em;
-}
-
-table {
-  width: 60em;
+.container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-gap: 1.5em;
 }
 
 .table-container {
-  display: inline-block;
-  float: right;
+  width: 100%;
+
+  table {
+    width: 100%;
+  }
 }
