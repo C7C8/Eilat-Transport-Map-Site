@@ -7,7 +7,7 @@ import { faCompress,
           faSun,
           faMoon,
           faCrosshairs } from '@fortawesome/free-solid-svg-icons';
-import { eilatCoords, mapBounds, mapStyleDefaultJSON, mapStyleSchematicJSON } from './mapStyles';
+import { eilatCoords, mapBounds, mapStyleDefaultJSON, mapStyleSchematicJSON } from './mapData';
 
 import { GoogleOverlay, Overlay, overlaysTable } from '../../../overlaysTable';
 import { FormControl, Validators } from '@angular/forms';

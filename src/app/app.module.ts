@@ -11,7 +11,10 @@ import {
   MatSelectModule, MatSlideToggleModule, MatSnackBarModule,
   MatToolbarModule,
   MatTooltipModule,
-  MatTabsModule
+  MatTabsModule,
+  MatTableModule,
+  MatSortModule,
+  MatPaginatorModule
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -45,6 +48,9 @@ import { HttpClientModule } from '@angular/common/http';
     MatSnackBarModule,
     MatSlideToggleModule,
     MatTabsModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
     BrowserModule,
     BrowserAnimationsModule,
     FontAwesomeModule,

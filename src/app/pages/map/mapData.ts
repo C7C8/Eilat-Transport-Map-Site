@@ -1,5 +1,5 @@
 /* Google maps styling is done in a pseudo-CSS style that's actually ultimately
-* stored as a JS object. Having this stuff stored inside the main app module is
+* stored as a JS object. Having this stuff stored inside the component file is
 * totally inappropriate, so all the styles are stored here instead. */
 
 export const mapStyleDefaultJSON: any = [

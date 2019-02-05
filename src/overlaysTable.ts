@@ -1,6 +1,6 @@
 import { Icon } from '@fortawesome/fontawesome-svg-core';
 import { faCar, faBus, faImage } from '@fortawesome/free-solid-svg-icons';
-import { mapBounds } from './app/pages/map/mapStyles';
+import { mapBounds } from './app/pages/map/mapData';
 declare var google: any;
 
 export interface Overlay {
