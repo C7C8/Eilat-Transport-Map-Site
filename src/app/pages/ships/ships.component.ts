@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Flight } from '../../DataTypes';
+import { FetchService } from '../../fetch.service';
 
 @Component({
   selector: 'app-ships',
@@ -6,10 +8,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./ships.component.scss']
 })
 export class ShipsComponent implements OnInit {
+  flights: Flight[];
 
-  constructor() { }
+  constructor(private fetchService: FetchService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.flights = await this.fetchService.getFlights();
+    console.log(this.flights);
   }
 
 }

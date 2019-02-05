@@ -21,6 +21,7 @@ import { FlightsComponent } from './pages/flights/flights.component';
 import { ShipsComponent } from './pages/ships/ships.component';
 import { AnalysisComponent } from './pages/analysis/analysis.component';
 import { AboutComponent } from './pages/about/about.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { AboutComponent } from './pages/about/about.component';
     MatTabsModule,
     BrowserModule,
     BrowserAnimationsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
