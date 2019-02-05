@@ -43,8 +43,6 @@ export class MapComponent implements AfterViewInit {
   faMountain = faMountain;
   faCodeBranch = faCodeBranch;
   faCrosshairs = faCrosshairs;
-  faSun = faSun;
-  faMoon = faMoon;
 
   constructor(private snackbar: MatSnackBar) {
     this.geocoder = new google.maps.Geocoder();

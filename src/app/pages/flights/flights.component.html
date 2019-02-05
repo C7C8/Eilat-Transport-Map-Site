@@ -59,4 +59,28 @@
     </table>
     <mat-paginator [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons></mat-paginator>
   </div>
+
+  <div class="chart-info">
+    <h3>When do flights arrive?</h3>
+    The bar chart on the left shows when flights are most likely to arrive; that is, a bigger bar
+    means that in the past flights have tended to arrive more often at that time than others. Since
+    each flight typically brings hundreds of passengers, this information is useful for planning
+    transportation offerings.
+  </div>
+
+  <div class="chart">
+    <div class="chart-ctrl">
+      <button mat-raised-button color="primary" (click)="toggleWeekdays()">Weekdays</button>
+      <button mat-raised-button color="primary" (click)="toggleWeekends()">Weekends</button>
+      <mat-form-field class="day-selector">
+        <mat-select placeholder="Select days"
+                    [formControl]="dayCtl"
+                    matTooltipPosition="above"
+                    matTooltip="Select days to show data for"
+                    multiple>
+          <mat-option *ngFor="let day of days" [value]="day">{{day}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
 </div>

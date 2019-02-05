@@ -1,13 +1,40 @@
 .container {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template: repeat(2, 1fr) / repeat(3, 1fr);
   grid-gap: 1.5em;
-}
 
-.table-container {
-  width: 100%;
+  .table-container {
+    grid-column-start: 2;
+    grid-column-end: 4;
 
-  table {
-    width: 100%;
+    h3 {
+      text-align: right;
+    }
+
+    table {
+      width: 100%;
+    }
+  }
+
+  .flight-info {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .chart-info {
+    grid-column: 3;
+    grid-row: 2;
+  }
+
+  .chart{
+    grid-row: 2;
+    grid-column-start: 1;
+    grid-column-end: 3;
+  }
+
+  button, mat-form-field {
+    margin-right: 0.75em;
   }
 }
+
+
