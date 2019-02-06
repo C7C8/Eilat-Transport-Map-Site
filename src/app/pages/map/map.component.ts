@@ -4,8 +4,8 @@ import { faCompress,
           faSatellite,
           faMountain,
           faCodeBranch,
-          faSun,
-          faMoon,
+          faPlus,
+          faMinus,
           faCrosshairs } from '@fortawesome/free-solid-svg-icons';
 import { eilatCoords, mapBounds, mapStyleDefaultJSON, mapStyleSchematicJSON } from './mapData';
 
@@ -43,6 +43,8 @@ export class MapComponent implements AfterViewInit {
   faMountain = faMountain;
   faCodeBranch = faCodeBranch;
   faCrosshairs = faCrosshairs;
+  faPlus = faPlus;
+  faMinus = faMinus;
 
   constructor(private snackbar: MatSnackBar) {
     this.geocoder = new google.maps.Geocoder();
@@ -119,5 +121,13 @@ export class MapComponent implements AfterViewInit {
     }
   }
 
+  zoomIn(): void {
+    this.map.setZoom(this.map.getZoom() + 1);
+    this.offCenter = true;
+  }
 
+  zoomOut(): void {
+    this.map.setZoom(this.map.getZoom() - 1);
+    this.offCenter = true;
+  }
 }

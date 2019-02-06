@@ -90,22 +90,33 @@
     <!-- Map; filled in by the google maps API -->
     <div class="map" [id]="mapId"></div>
 
-    <!-- Geocoding button and search bar -->
-    <form #searchForm="ngForm" (submit)="searchAddress()">
-      <button mat-raised-button
-              [disabled]="searchCtl.invalid"
-              color="primary">
-        <fa-icon [icon]="faCrosshairs"></fa-icon>
-        <!--<mat-spinner diameter=20 *ngIf="searching"></mat-spinner>-->
-        Search
-      </button>
+    <!-- Geocoding button, search bar, zoom in/out-->
+    <div class="buttonbar">
+      <form class="buttonbar-left" #searchForm="ngForm" (submit)="searchAddress()">
+        <button mat-raised-button
+                [disabled]="searchCtl.invalid"
+                color="primary">
+          <fa-icon [icon]="faCrosshairs"></fa-icon>
+          <!--<mat-spinner diameter=20 *ngIf="searching"></mat-spinner>-->
+          Search
+        </button>
 
-      <mat-form-field>
-        <input matInput
-               placeholder="Address"
-               [formControl]="searchCtl">
-      </mat-form-field>
-    </form>
+        <mat-form-field>
+          <input matInput
+                 placeholder="Address"
+                 [formControl]="searchCtl">
+        </mat-form-field>
+      </form>
+
+      <span class="zoom-buttons">
+        <button mat-icon-button (click)="zoomOut()" matTooltip="Zoom out">
+          <fa-icon [icon]="faMinus"></fa-icon>
+        </button>
+        <button mat-icon-button (click)="zoomIn()" matTooltip="Zoom in">
+          <fa-icon [icon]="faPlus"></fa-icon>
+        </button>
+      </span>
+    </div>
   </mat-card>
 
   <!-- Right panel -->
