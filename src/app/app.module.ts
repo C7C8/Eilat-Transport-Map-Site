@@ -14,7 +14,7 @@ import {
   MatTabsModule,
   MatTableModule,
   MatSortModule,
-  MatPaginatorModule
+  MatPaginatorModule, MatCardModule
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -51,6 +51,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    MatCardModule,
     BrowserModule,
     BrowserAnimationsModule,
     FontAwesomeModule,

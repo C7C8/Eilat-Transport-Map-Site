@@ -9,46 +9,40 @@
   </div>
 
   <!-- Center panel -->
-  <div>
+  <mat-card>
     <div class="buttonbar">
 
-      <!-- Map type switching buttons -->
+      <!-- Map type switching -->
       <span class="buttonbar-left">
-        <button mat-raised-button
-                (click)="switchMapType('default')"
-                [color]="mapType === 'default' ? 'primary' : 'secondary'"
-                matTooltipPosition="above"
-                matTooltip="Traditional roadmap view">
-          <fa-icon [icon]="faRoad"></fa-icon>
-          Roadmap
-        </button>
-        <button mat-raised-button
-                (click)="switchMapType('terrain')"
-                [color]="mapType === 'terrain' ? 'primary' : 'secondary'"
-                matTooltipPosition="above"
-                matTooltip="Terrain/contour view">
-          <fa-icon [icon]="faMountain"></fa-icon>
-          Terrain
-        </button>
+        <mat-tab-group (focusChange)="switchMapType($event)">
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <fa-icon [icon]="faRoad"></fa-icon>
+              Roadmap
+            </ng-template>
+          </mat-tab>
 
-        <button mat-raised-button
-                (click)="switchMapType('hybrid')"
-                [color]="mapType === 'hybrid' ? 'primary' : 'secondary'"
-                matTooltipPosition="above"
-                matTooltip="Satellite imagery view">
-          <fa-icon [icon]="faSatellite"></fa-icon>
-          Satellite
-        </button>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <fa-icon [icon]="faMountain"></fa-icon>
+              Terrain
+            </ng-template>
+          </mat-tab>
 
-        <button mat-raised-button
-                (click)="switchMapType('road_schematic')"
-                [color]="mapType === 'road_schematic' ? 'primary' : 'secondary'"
-                matTooltipPosition="above"
-                matTooltip="Road schematic view">
-          <fa-icon [icon]="faCodeBranch"></fa-icon>
-          Schematic
-        </button>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <fa-icon [icon]="faSatellite"></fa-icon>
+              Satellite
+            </ng-template>
+          </mat-tab>
 
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <fa-icon [icon]="faCodeBranch"></fa-icon>
+              Schematic
+            </ng-template>
+          </mat-tab>
+        </mat-tab-group>
       </span>
 
       <span class="buttonbar-right">
@@ -112,7 +106,7 @@
                [formControl]="searchCtl">
       </mat-form-field>
     </form>
-  </div>
+  </mat-card>
 
   <!-- Right panel -->
   <div class="side-info">

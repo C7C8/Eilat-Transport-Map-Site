@@ -11,7 +11,7 @@ import { eilatCoords, mapBounds, mapStyleDefaultJSON, mapStyleSchematicJSON } fr
 
 import { GoogleOverlay, Overlay, overlaysTable } from '../../../overlaysTable';
 import { FormControl, Validators } from '@angular/forms';
-import { MatOptionSelectionChange, MatSnackBar, MatSnackBarConfig } from '@angular/material';
+import { MatOptionSelectionChange, MatSnackBar, MatSnackBarConfig, MatTabChangeEvent } from '@angular/material';
 
 declare var google: any;
 
@@ -77,9 +77,10 @@ export class MapComponent implements AfterViewInit {
     this.map.addListener('center_changed', () => { self.offCenter = true; });
   }
 
-  switchMapType(type: string) {
-    this.mapType = type;
-    this.map.setMapTypeId(type);
+  switchMapType(event: MatTabChangeEvent) {
+    const types = ['default', 'terrain', 'hybrid', 'road_schematic'];
+    this.mapType = types[event.index];
+    this.map.setMapTypeId(types[event.index]);
   }
 
   centerMap(): void {
