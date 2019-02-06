@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   api: {
-    flights: '/api/flights'
+    flights: '/api/flights',
+    flightsMat: '/api/flightsmat'
   }
 };
 

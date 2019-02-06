@@ -54,7 +54,7 @@
     transportation offerings.
   </div>
 
-  <div class="chart">
+  <mat-card class="chart">
     <div class="chart-ctrl">
       <button mat-raised-button color="primary" (click)="toggleWeekdays()">Weekdays</button>
       <button mat-raised-button color="primary" (click)="toggleWeekends()">Weekends</button>
@@ -68,5 +68,10 @@
         </mat-select>
       </mat-form-field>
     </div>
-  </div>
+
+    <div class="chart-container">
+      <svg id="chart"></svg>
+    </div>
+  </mat-card>
+
 </div>

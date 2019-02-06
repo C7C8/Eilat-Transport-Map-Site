@@ -30,11 +30,24 @@
     grid-row: 2;
     grid-column-start: 1;
     grid-column-end: 3;
+
+    .chart-container {
+      width: 1000px;
+      height: 600px;
+
+      #chart {
+        ::ng-deep .bar {
+          fill: #3d85c6;
+        }
+
+        ::ng-deep .bar:hover {
+          fill: #504bce;
+        }
+      }
+    }
   }
 
   button, mat-form-field {
     margin-right: 0.75em;
   }
 }
-
-
