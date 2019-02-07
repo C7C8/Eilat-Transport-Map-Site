@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterContentInit } from '@angular/core';
 import { MatCheckboxChange, MatPaginator, MatSort, MatTable, MatTableDataSource } from '@angular/material';
 import { Flight, FlightsMat } from '../../DataTypes';
 import { FetchService } from '../../fetch.service';
@@ -9,7 +9,7 @@ import * as d3 from 'd3';
   templateUrl: './flights.component.html',
   styleUrls: ['./flights.component.scss']
 })
-export class FlightsComponent implements OnInit, AfterViewInit {
+export class FlightsComponent implements OnInit, AfterContentInit {
   // Table stuff
   @ViewChild(MatTable) table: MatTable<any>;
   @ViewChild(MatSort) sort: MatSort;
@@ -27,16 +27,19 @@ export class FlightsComponent implements OnInit, AfterViewInit {
   svg: any;
 
   constructor(private fetchService: FetchService) {
+    console.log('Constructor');
   }
 
   async ngOnInit() {
+    console.log('Main init');
     this.flightsRaw = await this.fetchService.getFlights();
     this.flights = new MatTableDataSource(this.flightsRaw);
     this.flights.sort = this.sort;
     this.flights.paginator = this.paginator;
   }
 
-  async ngAfterViewInit() {
+  async ngAfterContentInit() {
+    console.log('Content init');
     this.flightsFreq = await this.fetchService.getFlightsMat();
     this.chartDiv = document.getElementsByClassName('barchart-container')[0];
     this.svg = d3.select('#barchart');
@@ -45,6 +48,7 @@ export class FlightsComponent implements OnInit, AfterViewInit {
   }
 
   renderChart(): void {
+    console.log('Trying to render chart');
     const hourly_total = Array(24).fill(0);
 
     // Use flights frequency data to determine what the max value on the chart should be.

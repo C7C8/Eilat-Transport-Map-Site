@@ -12,14 +12,10 @@
           <fa-icon [icon]="faMap"></fa-icon>
           Map
         </ng-template>
-
-        <!-- Unbelievably, this MUST be put in the first tab. Angular is REALLY picky about how and
-		when it assigns that ID (in the mapId param) to the div contained inside the map; if the rest of
-		the site loads before this does, the API will fail to load when you switch to the tab with the map.
-		This is probably fixable by wrapping it in an <ng-template matTabContent> for lazy loading, but
-		it makes the animations less pretty, so it's not worth "fixing". Besides, the map should be the
-		first thing visible, right?-->
-        <app-map mapId="map1"></app-map>
+        <!-- Lazy load the map since it relies on DOM calculation stuff -->
+        <ng-template matTabContent>
+          <app-map mapId="map1"></app-map>
+        </ng-template>
       </mat-tab>
 
       <mat-tab>
@@ -27,7 +23,11 @@
           <fa-icon [icon]="faPlaneArrival"></fa-icon>
           Flights
         </ng-template>
-        <app-flights></app-flights>
+
+        <!-- Lazy load flights page since it relies on DOM calculation stuff for D3-->
+        <ng-template matTabContent>
+          <app-flights></app-flights>
+        </ng-template>
       </mat-tab>
 
       <mat-tab>
