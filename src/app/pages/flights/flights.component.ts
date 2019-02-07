@@ -55,14 +55,14 @@ export class FlightsComponent implements OnInit, AfterViewInit {
     // Set up bar chart with d3
     // Major credit goes to https://blog.risingstack.com/d3-js-tutorial-bar-charts-with-javascript/
     const margin = 60;
+    const chartDiv = document.getElementsByClassName('chart-container')[0];
     const svg = d3.select('#chart')
-      .attr('width', '100%')
-      .attr('height', '100%');
+      .attr('width', chartDiv.clientWidth)
+      .attr('height', chartDiv.clientHeight);
     const chart = svg.append('g')
       .attr('transform', `translate(${margin}, ${margin})`);
-    console.log(document.getElementById('chart'));
-    const width = 1000 - 2 * margin;
-    const height = 600 - 2 * margin;
+    const width = chartDiv.clientWidth - 2 * margin;
+    const height = chartDiv.clientHeight - 2 * margin;
 
     // Y axis
     const yScale = d3.scaleLinear()
