@@ -56,3 +56,11 @@
     margin-right: 0.75em;
   }
 }
+
+#chart-tooltip {
+  opacity: 0;
+  z-index: 10000;
+  display: inline;
+  position: absolute;
+  text-align: center;
+}

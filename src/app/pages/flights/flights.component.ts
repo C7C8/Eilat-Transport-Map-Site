@@ -25,13 +25,13 @@ export class FlightsComponent implements OnInit, AfterContentInit {
   margin = 75;
   chartDiv: any;
   svg: any;
+  tooltip: any;
+  displayCnt = 0;
 
   constructor(private fetchService: FetchService) {
-    console.log('Constructor');
   }
 
   async ngOnInit() {
-    console.log('Main init');
     this.flightsRaw = await this.fetchService.getFlights();
     this.flights = new MatTableDataSource(this.flightsRaw);
     this.flights.sort = this.sort;
@@ -39,19 +39,17 @@ export class FlightsComponent implements OnInit, AfterContentInit {
   }
 
   async ngAfterContentInit() {
-    console.log('Content init');
     this.flightsFreq = await this.fetchService.getFlightsMat();
     this.chartDiv = document.getElementsByClassName('barchart-container')[0];
     this.svg = d3.select('#barchart');
+    this.tooltip = d3.select('#chart-tooltip');
     window.addEventListener('resize', this.renderChart.bind(this));
     this.renderChart();
   }
 
   renderChart(): void {
-    console.log('Trying to render chart');
-    const hourly_total = Array(24).fill(0);
-
     // Use flights frequency data to determine what the max value on the chart should be.
+    const hourly_total = Array(24).fill(0);
     let flights_max = 0;
     for (const day of this.flightsFreq.daily) {
       if (day > flights_max) {
@@ -89,7 +87,7 @@ export class FlightsComponent implements OnInit, AfterContentInit {
       .call(d3.axisLeft(yScale));
     this.svg.append('text')
       .attr('x', -(height / 2) - this.margin)
-      .attr('y', this.margin / 4.8)
+      .attr('y', this.margin / 4.9)
       .attr('transform', 'rotate(-90)')
       .attr('text-anchor', 'middle')
       .attr('fill', 'currentColor')
@@ -122,10 +120,25 @@ export class FlightsComponent implements OnInit, AfterContentInit {
         .attr('rx', '4')
         .attr('ry', '4')
         .attr('class', 'bar')
+      .on('mouseenter', (s, i) => {
+        this.displayCnt = s;
+        this.tooltip
+          .style('top', yScale(s) + 'px')
+          .style('left', xScale(i) + (xScale.bandwidth() / 2) + 'px');
+        this.tooltip.transition()
+          .duration(350)
+          .style('opacity', 0.9);
+      })
+      .on('mouseleave', (s) => {
+        this.tooltip.transition()
+          .duration(150)
+          .style('opacity', 0);
+      })
       .transition()
         .duration(500)
         .attr('y', (s) => yScale(s))
-        .attr('height', (s) => height - yScale(s));
+        .attr('height', (s) => height - yScale(s))
+      ;
   }
 
   handleDayChange(event: MatCheckboxChange, day: string) {

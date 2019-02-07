@@ -48,10 +48,14 @@
 
   <div class="chart-info">
     <h3>When do flights arrive?</h3>
-    The bar chart on the left shows when flights are most likely to arrive; that is, a bigger bar
-    means that in the past flights have tended to arrive more often at that time than others. Since
-    each flight typically brings hundreds of passengers, this information is useful for planning
-    transportation offerings.
+    <p>The bar chart on the left shows when flights are most likely to arrive; that is, a bigger bar
+      means that in the past flights have tended to arrive more often at that time than others. Since
+      each flight typically brings hundreds of passengers, this information is useful for planning
+      transportation offerings.</p>
+
+    <p>This site has <b>{{flightsRaw.length}} flights on record</b>; you can select which days to view data
+      for using the checkboxes on the left.</p>
+
   </div>
 
   <mat-card class="chart">
@@ -66,6 +70,7 @@
     </div>
 
     <div class="barchart-container">
+      <mat-card id="chart-tooltip">{{displayCnt}} flights</mat-card>
       <svg id="barchart"></svg>
     </div>
   </mat-card>
