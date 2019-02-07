@@ -58,16 +58,11 @@
     <div class="chart-buttons">
       <button mat-raised-button color="primary" (click)="toggleWeekdays()">Weekdays</button>
       <button mat-raised-button color="primary" (click)="toggleWeekends()">Weekends</button>
-      <mat-form-field class="day-selector">
-        <mat-select placeholder="Select days"
-                    [formControl]="dayCtl"
-                    matTooltipPosition="above"
-                    matTooltip="Select days to show data for"
-                    (selectionChange)="renderChart()"
-                    multiple>
-          <mat-option *ngFor="let day of days" [value]="day">{{day}}</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <mat-checkbox *ngFor="let day of days"
+                    [checked]="daysSelected.includes(day)"
+                    (change)="handleDayChange($event, day)">
+        {{day}}
+      </mat-checkbox>
     </div>
 
     <div class="barchart-container">

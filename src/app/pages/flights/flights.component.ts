@@ -1,8 +1,7 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort, MatTable, MatTableDataSource } from '@angular/material';
+import { MatCheckboxChange, MatPaginator, MatSort, MatTable, MatTableDataSource } from '@angular/material';
 import { Flight, FlightsMat } from '../../DataTypes';
 import { FetchService } from '../../fetch.service';
-import { FormControl } from '@angular/forms';
 import * as d3 from 'd3';
 
 @Component({
@@ -22,13 +21,12 @@ export class FlightsComponent implements OnInit, AfterViewInit {
   // Bar chart stuff
   flightsFreq: FlightsMat;
   days: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  dayCtl = new FormControl();
+  daysSelected: string[] = this.days;
   margin = 75;
   chartDiv: any;
   svg: any;
 
   constructor(private fetchService: FetchService) {
-    this.dayCtl.patchValue(this.days);
   }
 
   async ngOnInit() {
@@ -59,7 +57,7 @@ export class FlightsComponent implements OnInit, AfterViewInit {
 
     // Accumulate data to graph by looping through every weekday; if it's not selected, don't add it to the data to graph.
     for (let i = 0; i < 7; i++) {
-      if (!this.dayCtl.value.includes(this.days[i])) {
+      if (!this.daysSelected.includes(this.days[i])) {
         continue;
       }
 
@@ -73,8 +71,6 @@ export class FlightsComponent implements OnInit, AfterViewInit {
     this.svg.selectAll('*').remove();
     const width = this.chartDiv.offsetWidth - this.margin;
     const height = this.chartDiv.offsetHeight - this.margin;
-    console.log('offsetWidth', this.chartDiv.offsetWidth);
-    console.log('offsetHeight', this.chartDiv.offsetHeight);
     this.svg
       .attr('width', this.chartDiv.offsetWidth)
       .attr('height', this.chartDiv.offsetHeight - 4);
@@ -128,19 +124,30 @@ export class FlightsComponent implements OnInit, AfterViewInit {
         .attr('height', (s) => height - yScale(s));
   }
 
+  handleDayChange(event: MatCheckboxChange, day: string) {
+    if (!event.checked && this.daysSelected.includes(day)) {
+      // Remove unchecked day from the list
+      this.daysSelected = this.daysSelected.filter((s) => s !== day);
+    } else {
+      this.daysSelected.push(day);
+    }
+
+    this.renderChart();
+  }
+
   toggleWeekdays(): void {
     const temp: string[] = [];
     for (let i = 0; i < 7; i++) {
       const day = this.days[i];
-      if (i < 5 && !this.dayCtl.value.includes(day)) {
+      if (i < 5 && !this.daysSelected.includes(day)) {
         temp.push(day);
       }
-      if (i >= 5 && this.dayCtl.value.includes(day)) {
+      if (i >= 5 && this.daysSelected.includes(day)) {
         temp.push(day);
       }
     }
 
-    this.dayCtl.patchValue(temp);
+    this.daysSelected = temp;
     this.renderChart();
   }
 
@@ -148,15 +155,15 @@ export class FlightsComponent implements OnInit, AfterViewInit {
     const temp: string[] = [];
     for (let i = 0; i < 7; i++) {
       const day = this.days[i];
-      if (i >= 5 && !this.dayCtl.value.includes(day)) {
+      if (i >= 5 && !this.daysSelected.includes(day)) {
         temp.push(day);
       }
-      if (i < 5 && this.dayCtl.value.includes(day)) {
+      if (i < 5 && this.daysSelected.includes(day)) {
         temp.push(day);
       }
     }
 
-    this.dayCtl.patchValue(temp);
+    this.daysSelected = temp;
     this.renderChart();
   }
 }

@@ -14,7 +14,7 @@ import {
   MatTabsModule,
   MatTableModule,
   MatSortModule,
-  MatPaginatorModule, MatCardModule
+  MatPaginatorModule, MatCardModule, MatCheckboxModule
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -52,6 +52,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatSortModule,
     MatPaginatorModule,
     MatCardModule,
+    MatCheckboxModule,
     BrowserModule,
     BrowserAnimationsModule,
     FontAwesomeModule,
