@@ -24,7 +24,6 @@ export class FlightsComponent implements OnInit, AfterViewInit {
   days: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   dayCtl = new FormControl();
   margin = 75;
-  flights_max = 0;
   chartDiv: any;
   svg: any;
 
@@ -43,19 +42,20 @@ export class FlightsComponent implements OnInit, AfterViewInit {
     this.flightsFreq = await this.fetchService.getFlightsMat();
     this.chartDiv = document.getElementsByClassName('barchart-container')[0];
     this.svg = d3.select('#barchart');
-    this.renderChart();
     window.addEventListener('resize', this.renderChart.bind(this));
-
-    // Use flights frequency data to determine what the max value on the chart should be.
-    for (const day of this.flightsFreq.daily) {
-      if (day > this.flights_max) {
-        this.flights_max = day;
-      }
-    }
+    this.renderChart();
   }
 
   renderChart(): void {
     const hourly_total = Array(24).fill(0);
+
+    // Use flights frequency data to determine what the max value on the chart should be.
+    let flights_max = 0;
+    for (const day of this.flightsFreq.daily) {
+      if (day > flights_max) {
+        flights_max = day;
+      }
+    }
 
     // Accumulate data to graph by looping through every weekday; if it's not selected, don't add it to the data to graph.
     for (let i = 0; i < 7; i++) {
@@ -68,22 +68,23 @@ export class FlightsComponent implements OnInit, AfterViewInit {
       }
     }
 
-
     // Set up bar chart with d3
     // Major credit to https://blog.risingstack.com/d3-js-tutorial-bar-charts-with-javascript/, IT HELPED SO MUCH
     this.svg.selectAll('*').remove();
-    const width = this.chartDiv.clientWidth - this.margin;
-    const height = this.chartDiv.clientHeight - this.margin;
+    const width = this.chartDiv.offsetWidth - this.margin;
+    const height = this.chartDiv.offsetHeight - this.margin;
+    console.log('offsetWidth', this.chartDiv.offsetWidth);
+    console.log('offsetHeight', this.chartDiv.offsetHeight);
     this.svg
-      .attr('width', this.chartDiv.clientWidth)
-      .attr('height', this.chartDiv.clientHeight);
+      .attr('width', this.chartDiv.offsetWidth)
+      .attr('height', this.chartDiv.offsetHeight - 4);
     const chart = this.svg.append('g')
       .attr('transform', `translate(${this.margin / 2}, ${this.margin / 2})`);
 
     // Y axis
     const yScale = d3.scaleLinear()
       .range([height, 0])
-      .domain([0, this.flights_max]);
+      .domain([0, flights_max]);
     chart.append('g')
       .call(d3.axisLeft(yScale));
     this.svg.append('text')

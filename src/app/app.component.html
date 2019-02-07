@@ -5,6 +5,15 @@
 
   <div class="content">
     <mat-tab-group>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <fa-icon [icon]="faPlaneArrival"></fa-icon>
+          Flights
+        </ng-template>
+        <app-flights></app-flights>
+      </mat-tab>
+
       <mat-tab>
         <ng-template mat-tab-label>
           <fa-icon [icon]="faMap"></fa-icon>
@@ -17,16 +26,10 @@
 		This is probably fixable by wrapping it in an <ng-template matTabContent> for lazy loading, but
 		it makes the animations less pretty, so it's not worth "fixing". Besides, the map should be the
 		first thing visible, right?-->
-        <app-map mapId="map1"></app-map>
+        <!--<app-map mapId="map1"></app-map>-->
       </mat-tab>
 
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <fa-icon [icon]="faPlaneArrival"></fa-icon>
-          Flights
-        </ng-template>
-        <app-flights></app-flights>
-      </mat-tab>
+
 
       <mat-tab>
         <ng-template mat-tab-label>
