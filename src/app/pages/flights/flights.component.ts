@@ -4,6 +4,11 @@ import { Flight, FlightsMat } from '../../DataTypes';
 import { FetchService } from '../../fetch.service';
 import * as d3 from 'd3';
 
+// These have to be here because if they're in the FlightsComponent class, they get treated as data
+// and not functions with sub-functions (or whatever JS calls them...)
+let xScale;
+let yScale;
+
 @Component({
   selector: 'app-flights',
   templateUrl: './flights.component.html',
@@ -26,6 +31,7 @@ export class FlightsComponent implements OnInit, AfterContentInit {
   chartDiv: any;
   svg: any;
   tooltip: any;
+  chart: any;
   displayCnt = 0;
 
   constructor(private fetchService: FetchService) {
@@ -47,17 +53,10 @@ export class FlightsComponent implements OnInit, AfterContentInit {
     this.renderChart();
   }
 
-  renderChart(): void {
-    // Use flights frequency data to determine what the max value on the chart should be.
-    const hourly_total = Array(24).fill(0);
-    let flights_max = 0;
-    for (const day of this.flightsFreq.daily) {
-      if (day > flights_max) {
-        flights_max = day;
-      }
-    }
-
-    // Accumulate data to graph by looping through every weekday; if it's not selected, don't add it to the data to graph.
+  getHourlyFlightTotal(): number[] {
+    // Accumulate data to graph by looping through every weekday;
+    // if it's not selected,don't add it to the data to graph.
+    const hourly_total = new Array(24).fill(0);
     for (let i = 0; i < 7; i++) {
       if (!this.daysSelected.includes(this.days[i])) {
         continue;
@@ -68,6 +67,20 @@ export class FlightsComponent implements OnInit, AfterContentInit {
       }
     }
 
+    return hourly_total;
+  }
+
+  getFlightsMax(): number {
+    let flights_max = 0;
+    for (const day of this.flightsFreq.daily) {
+      if (day > flights_max) {
+        flights_max = day;
+      }
+    }
+    return flights_max;
+  }
+
+  renderChart(): void {
     // Set up bar chart with d3
     // Major credit to https://blog.risingstack.com/d3-js-tutorial-bar-charts-with-javascript/, IT HELPED SO MUCH
     this.svg.selectAll('*').remove();
@@ -76,14 +89,14 @@ export class FlightsComponent implements OnInit, AfterContentInit {
     this.svg
       .attr('width', this.chartDiv.offsetWidth)
       .attr('height', this.chartDiv.offsetHeight - 4);
-    const chart = this.svg.append('g')
+    this.chart = this.svg.append('g')
       .attr('transform', `translate(${this.margin / 2}, ${this.margin / 2})`);
 
     // Y axis
-    const yScale = d3.scaleLinear()
+    yScale = d3.scaleLinear()
       .range([height, 0])
-      .domain([0, flights_max]);
-    chart.append('g')
+      .domain([0, this.getFlightsMax()]);
+    this.chart.append('g')
       .call(d3.axisLeft(yScale));
     this.svg.append('text')
       .attr('x', -(height / 2) - this.margin)
@@ -94,11 +107,11 @@ export class FlightsComponent implements OnInit, AfterContentInit {
       .text('Flights');
 
     // X axis
-    const xScale = d3.scaleBand()
+    xScale = d3.scaleBand()
       .range([0, width])
-      .domain(hourly_total.map((s, i) => i))
+      .domain(this.getHourlyFlightTotal().map((s, i) => i))
       .padding(0.2);
-    chart.append('g')
+    this.chart.append('g')
       .attr('transform', `translate(0, ${height})`)
       .call(d3.axisBottom(xScale));
     this.svg.append('text')
@@ -108,8 +121,16 @@ export class FlightsComponent implements OnInit, AfterContentInit {
       .attr('fill', 'currentColor')
       .text('Hour of day');
 
-    // Draw bars
-    chart.selectAll()
+    this.renderChartBars();
+  }
+
+  renderChartBars(): void {
+    d3.selectAll('rect').remove();
+    const hourly_total = this.getHourlyFlightTotal();
+    const height = this.chartDiv.offsetHeight - this.margin;
+
+    // Draw actual bars
+    this.chart.selectAll()
       .data(hourly_total)
       .enter()
       .append('rect')
@@ -137,8 +158,7 @@ export class FlightsComponent implements OnInit, AfterContentInit {
       .transition()
         .duration(500)
         .attr('y', (s) => yScale(s))
-        .attr('height', (s) => height - yScale(s))
-      ;
+        .attr('height', (s) => height - yScale(s));
   }
 
   handleDayChange(event: MatCheckboxChange, day: string) {
@@ -149,7 +169,7 @@ export class FlightsComponent implements OnInit, AfterContentInit {
       this.daysSelected.push(day);
     }
 
-    this.renderChart();
+    this.renderChartBars();
   }
 
   toggleWeekdays(): void {
@@ -165,7 +185,7 @@ export class FlightsComponent implements OnInit, AfterContentInit {
     }
 
     this.daysSelected = temp;
-    this.renderChart();
+    this.renderChartBars();
   }
 
   toggleWeekends(): void {
@@ -181,6 +201,6 @@ export class FlightsComponent implements OnInit, AfterContentInit {
     }
 
     this.daysSelected = temp;
-    this.renderChart();
+    this.renderChartBars();
   }
 }
