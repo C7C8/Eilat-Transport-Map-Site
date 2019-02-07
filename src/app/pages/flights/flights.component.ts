@@ -54,15 +54,15 @@ export class FlightsComponent implements OnInit, AfterViewInit {
 
     // Set up bar chart with d3
     // Major credit goes to https://blog.risingstack.com/d3-js-tutorial-bar-charts-with-javascript/
-    const margin = 60;
-    const chartDiv = document.getElementsByClassName('chart-container')[0];
-    const svg = d3.select('#chart')
+    const margin = 75;
+    const chartDiv = document.getElementsByClassName('barchart-container')[0];
+    const width = chartDiv.clientWidth - margin;
+    const height = chartDiv.clientHeight - margin;
+    const svg = d3.select('#barchart')
       .attr('width', chartDiv.clientWidth)
       .attr('height', chartDiv.clientHeight);
     const chart = svg.append('g')
-      .attr('transform', `translate(${margin}, ${margin})`);
-    const width = chartDiv.clientWidth - 2 * margin;
-    const height = chartDiv.clientHeight - 2 * margin;
+      .attr('transform', `translate(${margin / 2}, ${margin / 2})`);
 
     // Y axis
     const yScale = d3.scaleLinear()
@@ -72,7 +72,7 @@ export class FlightsComponent implements OnInit, AfterViewInit {
       .call(d3.axisLeft(yScale));
     svg.append('text')
       .attr('x', -(height / 2) - margin)
-      .attr('y', margin / 2.4)
+      .attr('y', margin / 4.8)
       .attr('transform', 'rotate(-90)')
       .attr('text-anchor', 'middle')
       .attr('fill', 'currentColor')
@@ -87,8 +87,8 @@ export class FlightsComponent implements OnInit, AfterViewInit {
       .attr('transform', `translate(0, ${height})`)
       .call(d3.axisBottom(xScale));
     svg.append('text')
-      .attr('x', width / 2 + margin)
-      .attr('y', height + margin + 40)
+      .attr('x', width / 2 + margin / 2)
+      .attr('y', height + margin - 8)
       .attr('text-anchor', 'middle')
       .attr('fill', 'currentColor')
       .text('Hour of day');

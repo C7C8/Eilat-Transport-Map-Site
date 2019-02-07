@@ -27,15 +27,16 @@
   }
 
   .chart{
+    display: flex;
+    flex-direction: column;
     grid-row: 2;
     grid-column-start: 1;
     grid-column-end: 3;
 
-    .chart-container {
-      min-width: 100%;
-      min-height: 100%;
+    .barchart-container {
+      flex: 1;
 
-      #chart {
+      svg {
         ::ng-deep .bar {
           fill: #3d85c6;
         }
