@@ -24,6 +24,8 @@ export class FlightsComponent implements OnInit, AfterViewInit {
   days: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   dayCtl = new FormControl();
   margin = 75;
+  chartDiv: any;
+  svg: any;
 
   constructor(private fetchService: FetchService) {
     this.dayCtl.patchValue(this.days);
@@ -38,34 +40,37 @@ export class FlightsComponent implements OnInit, AfterViewInit {
 
   async ngAfterViewInit() {
     this.flightsFreq = await this.fetchService.getFlightsMat();
+    this.chartDiv = document.getElementsByClassName('barchart-container')[0];
+    this.svg = d3.select('#barchart');
     this.renderChart();
+    window.addEventListener('resize', this.renderChart.bind(this));
   }
 
   renderChart(): void {
-    // Initial data processing
-    const hourly_total = [];
-    let global_max = 0;
-    for (let i = 0; i < 24; i++) {
-      let total = 0;
-      for (let j = 0; j < 5; j++) {
-        total += this.flightsFreq.hourly_daily[j][i];
+    console.log('Rendering chart');
+    const hourly_total = Array(24).fill(0);
+    const global_max = 12;
+
+    // Accumulate data to graph by looping through every weekday; if it's not selected, don't add it to the data to graph.
+    for (let i = 0; i < 7; i++) {
+      if (!this.dayCtl.value.includes(this.days[i])) {
+        continue;
       }
-      if (total > global_max) {
-        global_max = total;
+
+      for (let j = 0; j < 24; j++) {
+        hourly_total[j] += this.flightsFreq.hourly_daily[i][j];
       }
-      hourly_total.push(total);
     }
-    global_max *= 1.25;
 
     // Set up bar chart with d3
     // Major credit goes to https://blog.risingstack.com/d3-js-tutorial-bar-charts-with-javascript/
-    const chartDiv = document.getElementsByClassName('barchart-container')[0];
-    const width = chartDiv.clientWidth - this.margin;
-    const height = chartDiv.clientHeight - this.margin;
-    const svg = d3.select('#barchart')
-      .attr('width', chartDiv.clientWidth)
-      .attr('height', chartDiv.clientHeight);
-    const chart = svg.append('g')
+    this.svg.selectAll('*').remove();
+    const width = this.chartDiv.clientWidth - this.margin;
+    const height = this.chartDiv.clientHeight - this.margin;
+    this.svg
+      .attr('width', this.chartDiv.clientWidth)
+      .attr('height', this.chartDiv.clientHeight);
+    const chart = this.svg.append('g')
       .attr('transform', `translate(${this.margin / 2}, ${this.margin / 2})`);
 
     // Y axis
@@ -74,7 +79,7 @@ export class FlightsComponent implements OnInit, AfterViewInit {
       .domain([0, global_max]);
     chart.append('g')
       .call(d3.axisLeft(yScale));
-    svg.append('text')
+    this.svg.append('text')
       .attr('x', -(height / 2) - this.margin)
       .attr('y', this.margin / 4.8)
       .attr('transform', 'rotate(-90)')
@@ -90,7 +95,7 @@ export class FlightsComponent implements OnInit, AfterViewInit {
     chart.append('g')
       .attr('transform', `translate(0, ${height})`)
       .call(d3.axisBottom(xScale));
-    svg.append('text')
+    this.svg.append('text')
       .attr('x', width / 2 + this.margin / 2)
       .attr('y', height + this.margin - 8)
       .attr('text-anchor', 'middle')
@@ -102,17 +107,17 @@ export class FlightsComponent implements OnInit, AfterViewInit {
       .data(hourly_total)
       .enter()
       .append('rect')
-      .attr('x', (s, i) => xScale(i))
-      .attr('y', yScale(0))
-      .attr('height', 0)
-      .attr('width', (s) => xScale.bandwidth())
-      .attr('rx', '4')
-      .attr('ry', '4')
-      .attr('class', 'bar')
+        .attr('x', (s, i) => xScale(i))
+        .attr('y', yScale(0))
+        .attr('height', 0)
+        .attr('width', (s) => xScale.bandwidth())
+        .attr('rx', '4')
+        .attr('ry', '4')
+        .attr('class', 'bar')
       .transition()
-      .duration(750)
-      .attr('y', (s) => yScale(s))
-      .attr('height', (s) => height - yScale(s));
+        .duration(500)
+        .attr('y', (s) => yScale(s))
+        .attr('height', (s) => height - yScale(s));
   }
 
   toggleWeekdays(): void {
@@ -128,6 +133,7 @@ export class FlightsComponent implements OnInit, AfterViewInit {
     }
 
     this.dayCtl.patchValue(temp);
+    this.renderChart();
   }
 
   toggleWeekends(): void {
@@ -143,5 +149,6 @@ export class FlightsComponent implements OnInit, AfterViewInit {
     }
 
     this.dayCtl.patchValue(temp);
+    this.renderChart();
   }
 }

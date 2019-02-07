@@ -63,6 +63,7 @@
                     [formControl]="dayCtl"
                     matTooltipPosition="above"
                     matTooltip="Select days to show data for"
+                    (selectionChange)="renderChart()"
                     multiple>
           <mat-option *ngFor="let day of days" [value]="day">{{day}}</mat-option>
         </mat-select>
