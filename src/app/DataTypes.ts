@@ -23,5 +23,5 @@ export class Flight {
 
 export class FlightsMat {
   hourly_daily: number[][];
-  weekly: number[];
+  daily: number[];
 }

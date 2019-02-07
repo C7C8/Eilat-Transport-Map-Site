@@ -24,6 +24,7 @@ export class FlightsComponent implements OnInit, AfterViewInit {
   days: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   dayCtl = new FormControl();
   margin = 75;
+  flights_max = 0;
   chartDiv: any;
   svg: any;
 
@@ -44,12 +45,17 @@ export class FlightsComponent implements OnInit, AfterViewInit {
     this.svg = d3.select('#barchart');
     this.renderChart();
     window.addEventListener('resize', this.renderChart.bind(this));
+
+    // Use flights frequency data to determine what the max value on the chart should be.
+    for (const day of this.flightsFreq.daily) {
+      if (day > this.flights_max) {
+        this.flights_max = day;
+      }
+    }
   }
 
   renderChart(): void {
-    console.log('Rendering chart');
     const hourly_total = Array(24).fill(0);
-    const global_max = 12;
 
     // Accumulate data to graph by looping through every weekday; if it's not selected, don't add it to the data to graph.
     for (let i = 0; i < 7; i++) {
@@ -62,8 +68,9 @@ export class FlightsComponent implements OnInit, AfterViewInit {
       }
     }
 
+
     // Set up bar chart with d3
-    // Major credit goes to https://blog.risingstack.com/d3-js-tutorial-bar-charts-with-javascript/
+    // Major credit to https://blog.risingstack.com/d3-js-tutorial-bar-charts-with-javascript/, IT HELPED SO MUCH
     this.svg.selectAll('*').remove();
     const width = this.chartDiv.clientWidth - this.margin;
     const height = this.chartDiv.clientHeight - this.margin;
@@ -76,7 +83,7 @@ export class FlightsComponent implements OnInit, AfterViewInit {
     // Y axis
     const yScale = d3.scaleLinear()
       .range([height, 0])
-      .domain([0, global_max]);
+      .domain([0, this.flights_max]);
     chart.append('g')
       .call(d3.axisLeft(yScale));
     this.svg.append('text')
