@@ -55,11 +55,25 @@
   button, mat-form-field {
     margin-right: 0.75em;
   }
+
+  figure {
+    margin: 3em auto 0;
+    max-width: 80%;
+
+    img {
+      max-width: 100%;
+    }
+
+    figcaption {
+      font-style: italic;
+      opacity: 0.6;
+      bottom: 0;
+    }
+  }
 }
 
 #chart-tooltip {
   opacity: 0;
-  z-index: 10000;
   display: inline;
   position: absolute;
   text-align: center;
