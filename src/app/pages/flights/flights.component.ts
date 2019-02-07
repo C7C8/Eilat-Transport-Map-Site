@@ -23,6 +23,7 @@ export class FlightsComponent implements OnInit, AfterViewInit {
   flightsFreq: FlightsMat;
   days: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   dayCtl = new FormControl();
+  margin = 75;
 
   constructor(private fetchService: FetchService) {
     this.dayCtl.patchValue(this.days);
@@ -36,8 +37,12 @@ export class FlightsComponent implements OnInit, AfterViewInit {
   }
 
   async ngAfterViewInit() {
-    // Initial data processing
     this.flightsFreq = await this.fetchService.getFlightsMat();
+    this.renderChart();
+  }
+
+  renderChart(): void {
+    // Initial data processing
     const hourly_total = [];
     let global_max = 0;
     for (let i = 0; i < 24; i++) {
@@ -48,21 +53,20 @@ export class FlightsComponent implements OnInit, AfterViewInit {
       if (total > global_max) {
         global_max = total;
       }
-      hourly_total.push([i, total]);
+      hourly_total.push(total);
     }
     global_max *= 1.25;
 
     // Set up bar chart with d3
     // Major credit goes to https://blog.risingstack.com/d3-js-tutorial-bar-charts-with-javascript/
-    const margin = 75;
     const chartDiv = document.getElementsByClassName('barchart-container')[0];
-    const width = chartDiv.clientWidth - margin;
-    const height = chartDiv.clientHeight - margin;
+    const width = chartDiv.clientWidth - this.margin;
+    const height = chartDiv.clientHeight - this.margin;
     const svg = d3.select('#barchart')
       .attr('width', chartDiv.clientWidth)
       .attr('height', chartDiv.clientHeight);
     const chart = svg.append('g')
-      .attr('transform', `translate(${margin / 2}, ${margin / 2})`);
+      .attr('transform', `translate(${this.margin / 2}, ${this.margin / 2})`);
 
     // Y axis
     const yScale = d3.scaleLinear()
@@ -71,8 +75,8 @@ export class FlightsComponent implements OnInit, AfterViewInit {
     chart.append('g')
       .call(d3.axisLeft(yScale));
     svg.append('text')
-      .attr('x', -(height / 2) - margin)
-      .attr('y', margin / 4.8)
+      .attr('x', -(height / 2) - this.margin)
+      .attr('y', this.margin / 4.8)
       .attr('transform', 'rotate(-90)')
       .attr('text-anchor', 'middle')
       .attr('fill', 'currentColor')
@@ -81,14 +85,14 @@ export class FlightsComponent implements OnInit, AfterViewInit {
     // X axis
     const xScale = d3.scaleBand()
       .range([0, width])
-      .domain(hourly_total.map((s) => s[0]))
+      .domain(hourly_total.map((s, i) => i))
       .padding(0.2);
     chart.append('g')
       .attr('transform', `translate(0, ${height})`)
       .call(d3.axisBottom(xScale));
     svg.append('text')
-      .attr('x', width / 2 + margin / 2)
-      .attr('y', height + margin - 8)
+      .attr('x', width / 2 + this.margin / 2)
+      .attr('y', height + this.margin - 8)
       .attr('text-anchor', 'middle')
       .attr('fill', 'currentColor')
       .text('Hour of day');
@@ -98,24 +102,17 @@ export class FlightsComponent implements OnInit, AfterViewInit {
       .data(hourly_total)
       .enter()
       .append('rect')
-      .attr('x', (s) => xScale(s[0]))
+      .attr('x', (s, i) => xScale(i))
       .attr('y', yScale(0))
       .attr('height', 0)
       .attr('width', (s) => xScale.bandwidth())
-      // .attr('style', 'fill: #3d85c6;')
       .attr('rx', '4')
       .attr('ry', '4')
       .attr('class', 'bar')
-      .on('mouseenter', function(actual, i) {
-        // d3.select(this).attr('style', 'fill: #504bce;');
-      })
-      .on('mouseleave', function(actual, i) {
-        // d3.select(this).attr('style', 'fill: #3d85c6;');
-      })
       .transition()
       .duration(750)
-      .attr('y', (s) => yScale(s[1]))
-      .attr('height', (s) => height - yScale(s[1]));
+      .attr('y', (s) => yScale(s))
+      .attr('height', (s) => height - yScale(s));
   }
 
   toggleWeekdays(): void {
