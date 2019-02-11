@@ -72,11 +72,16 @@ export class FlightsComponent implements OnInit, AfterContentInit {
 
   getFlightsMax(): number {
     let flights_max = 0;
-    for (const day of this.flightsFreq.daily) {
-      if (day > flights_max) {
-        flights_max = day;
+    for (let i = 0; i < 24; i++) {
+      let local_total = 0;
+      for (let j = 0; j < 7; j++) {
+        local_total += this.flightsFreq.hourly_daily[j][i];
+      }
+      if (local_total > flights_max) {
+        flights_max = local_total;
       }
     }
+
     return flights_max;
   }
 
