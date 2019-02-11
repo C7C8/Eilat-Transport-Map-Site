@@ -8,20 +8,23 @@ import {
   MatFormFieldModule,
   MatInputModule,
   MatProgressSpinnerModule,
-  MatSelectModule, MatSlideToggleModule, MatSnackBarModule,
+  MatSelectModule,
+  MatSlideToggleModule,
+  MatSnackBarModule,
   MatToolbarModule,
   MatTooltipModule,
   MatTabsModule,
   MatTableModule,
   MatSortModule,
-  MatPaginatorModule, MatCardModule, MatCheckboxModule
+  MatPaginatorModule,
+  MatCardModule,
+  MatCheckboxModule
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MapComponent } from './pages/map/map.component';
 import { FlightsComponent } from './pages/flights/flights.component';
-import { ShipsComponent } from './pages/ships/ships.component';
 import { AnalysisComponent } from './pages/analysis/analysis.component';
 import { AboutComponent } from './pages/about/about.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -31,7 +34,6 @@ import { HttpClientModule } from '@angular/common/http';
     AppComponent,
     MapComponent,
     FlightsComponent,
-    ShipsComponent,
     AnalysisComponent,
     AboutComponent,
   ],
