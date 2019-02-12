@@ -32,6 +32,7 @@ export class FlightsComponent implements OnInit, AfterContentInit {
   svg: any;
   tooltip: any;
   chart: any;
+  prev_data: number[] = Array(24).fill(0);
   displayCnt = 0;
 
   constructor(private fetchService: FetchService) {
@@ -130,6 +131,13 @@ export class FlightsComponent implements OnInit, AfterContentInit {
   }
 
   renderChartBars(): void {
+    // Okay, so this isn't the best way of doing things, but I don't have enough time to figure out
+    // how to make D3 do a proper transition from one state to another. This "refresh" algorithm works
+    // by saving the last data set that was rendered, deleting the old bars (!!!), redrawing new ones
+    // IDENTICAL TO THE OLD ONES, and transitioning from *that* to the new bars. Why? Because either
+    // D3 is being finnicky about applying transitions, or (more likely) I'm just missing something
+    // about how D3 does transitions to new data.
+
     d3.selectAll('rect').remove();
     const hourly_total = this.getHourlyFlightTotal();
     const height = this.chartDiv.offsetHeight - this.margin;
@@ -140,9 +148,9 @@ export class FlightsComponent implements OnInit, AfterContentInit {
       .enter()
       .append('rect')
         .attr('x', (s, i) => xScale(i))
-        .attr('y', yScale(0))
-        .attr('height', 0)
-        .attr('width', (s) => xScale.bandwidth())
+        .attr('y', (s, i) => yScale(this.prev_data[i]))
+        .attr('height', (s, i) => height - yScale(this.prev_data[i]))
+        .attr('width', xScale.bandwidth())
         .attr('rx', '4')
         .attr('ry', '4')
         .attr('class', 'bar')
@@ -164,6 +172,8 @@ export class FlightsComponent implements OnInit, AfterContentInit {
         .duration(500)
         .attr('y', (s) => yScale(s))
         .attr('height', (s) => height - yScale(s));
+
+    this.prev_data = hourly_total;
   }
 
   handleDayChange(event: MatCheckboxChange, day: string) {
