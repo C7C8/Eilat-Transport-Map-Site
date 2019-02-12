@@ -7,6 +7,7 @@ import { faMap,
   faCity,
   faInfoCircle} from '@fortawesome/free-solid-svg-icons';
 import { MatSlideToggleChange } from '@angular/material';
+import { FetchService } from './fetch.service';
 
 @Component({
   selector: 'app-root',
@@ -22,10 +23,10 @@ export class AppComponent implements OnInit {
   faMoon = faMoon;
   faCity = faCity;
 
-  constructor() {
-  }
+  constructor(private fetchService: FetchService) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    await this.fetchService.cacheBusLocations();
   }
 
   handleThemeChange(event: MatSlideToggleChange) {

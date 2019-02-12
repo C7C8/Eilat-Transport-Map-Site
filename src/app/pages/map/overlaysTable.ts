@@ -1,9 +1,8 @@
-import { Icon } from '@fortawesome/fontawesome-svg-core';
-import { faCar, faBus, faImage } from '@fortawesome/free-solid-svg-icons';
-import { mapBounds } from './mapData';
+import { faCar, faBus, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
+import { FetchService } from '../../fetch.service';
 declare var google: any;
 
-export interface Overlay {
+export class Overlay {
   name: string;               // Name as shown in overlay navigator
   icon: any;                  // FontAwesome icon, if applicable
   active: boolean;            // Whether overlay is shown or not.
@@ -49,9 +48,31 @@ export const overlaysTable: (Overlay | GoogleOverlay)[] = [
       limiting its usefulness to travelers. Google offers a <a href="https://support.google.com/transitpartners">transit partnership
       program</a> to gather static and live data from cities to better direct travelers and tourists.</p>`,
 
-    onChange (map: any, selected: boolean): void {
+    onChange(map: any, selected: boolean): void {
       this.active = selected;
       this.gOverlay.setMap(selected ? map : null);
+    }
+  },
+  {
+    name: 'Bus locations',
+    icon: faMapMarkerAlt,
+    active: false,
+    descName: 'Live bus locations',
+    tooltip: 'Show live bus locations in the city',
+    gOverlay: null,
+
+    description: `<p>Bus locations at the time of this site's loading are shown as markers on the map.
+                  Data sourced from the Ministry of Transportation's SIRI API.</p>`,
+
+    onChange(map: any, selected: boolean): void {
+      this.active = selected;
+      if (selected) {
+        map.data.addGeoJson(FetchService.busLocations);
+      } else {
+        map.data.forEach(feature => {
+          map.data.remove(feature);
+        });
+      }
     }
   }
 ];

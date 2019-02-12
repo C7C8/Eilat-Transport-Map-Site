@@ -108,6 +108,17 @@
         </mat-form-field>
       </form>
 
+      <div>
+        <button mat-raised-button color="primary"
+                (click)="refreshBusLocations()"
+                *ngIf="showRefresh">
+          <fa-icon [icon]="faSyncAlt"></fa-icon>
+          Refresh bus positions
+        </button>
+      </div>
+
+      <div></div> <!-- What? Don't look at me that way!-->
+
       <span class="zoom-buttons">
         <button mat-icon-button (click)="zoomOut()" matTooltip="Zoom out">
           <fa-icon [icon]="faMinus"></fa-icon>

@@ -6,13 +6,16 @@ import { faCompress,
           faCodeBranch,
           faPlus,
           faMinus,
+          faSyncAlt,
           faCrosshairs } from '@fortawesome/free-solid-svg-icons';
 import { eilatCoords, mapBounds, mapStyleDefaultJSON, mapStyleSchematicJSON } from './mapData';
 
 import { GoogleOverlay, Overlay, overlaysTable } from './overlaysTable';
 import { FormControl, Validators } from '@angular/forms';
 import { MatOptionSelectionChange, MatSnackBar, MatSnackBarConfig, MatTabChangeEvent } from '@angular/material';
+import { FetchService } from '../../fetch.service';
 
+import * as gjson from 'geojson';
 declare var google: any;
 
 @Component({
@@ -30,6 +33,7 @@ export class MapComponent implements AfterViewInit {
   overlayCtl = new FormControl();
   searchCtl = new FormControl('', Validators.required);
   overlaysTable: (Overlay | GoogleOverlay)[] = overlaysTable;
+  showRefresh = false;
   snackbarConfig: MatSnackBarConfig = {
     duration: 1500,
     verticalPosition: 'top',
@@ -45,12 +49,13 @@ export class MapComponent implements AfterViewInit {
   faCrosshairs = faCrosshairs;
   faPlus = faPlus;
   faMinus = faMinus;
+  faSyncAlt = faSyncAlt;
 
-  constructor(private snackbar: MatSnackBar) {
+  constructor(private snackbar: MatSnackBar, private fetchService: FetchService) {
     this.geocoder = new google.maps.Geocoder();
   }
 
-  ngAfterViewInit(): void {
+  async ngAfterViewInit() {
     this.map = new google.maps.Map(document.getElementById(this.mapId), {
       center: eilatCoords,
       zoom: 14.6,
@@ -99,6 +104,9 @@ export class MapComponent implements AfterViewInit {
   // TL;DR IDK, sue me.
   handleOverlayChange(event: MatOptionSelectionChange): void {
     (event.source.value as Overlay).onChange(this.map, event.source.selected);
+    if ((event.source.value as Overlay).name === 'Bus locations') {
+      this.showRefresh = event.source.selected;
+    }
   }
 
   searchAddress(): void {
@@ -121,6 +129,14 @@ export class MapComponent implements AfterViewInit {
     }
   }
 
+  refreshBusLocations(): void {
+    this.fetchService.cacheBusLocations();
+
+    // Find the bus location overlay and toggle it so the markers get reloaded
+    const busLocationOverlay = this.overlaysTable.filter((o) => o.name === 'Bus locations')[0];
+    busLocationOverlay.onChange(this.map, false);
+    busLocationOverlay.onChange(this.map, true);
+  }
   zoomIn(): void {
     this.map.setZoom(this.map.getZoom() + 1);
     this.offCenter = true;
