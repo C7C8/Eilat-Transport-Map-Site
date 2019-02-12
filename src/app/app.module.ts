@@ -28,6 +28,7 @@ import { FlightsComponent } from './pages/flights/flights.component';
 import { AnalysisComponent } from './pages/analysis/analysis.component';
 import { AboutComponent } from './pages/about/about.component';
 import { HttpClientModule } from '@angular/common/http';
+import { CitiesComponent } from './pages/cities/cities.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { HttpClientModule } from '@angular/common/http';
     FlightsComponent,
     AnalysisComponent,
     AboutComponent,
+    CitiesComponent,
   ],
   imports: [
     MatToolbarModule,

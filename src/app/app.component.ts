@@ -4,6 +4,7 @@ import { faMap,
   faChartBar,
   faSun,
   faMoon,
+  faCity,
   faInfoCircle} from '@fortawesome/free-solid-svg-icons';
 import { MatSlideToggleChange } from '@angular/material';
 
@@ -19,6 +20,7 @@ export class AppComponent implements OnInit {
   faInfoCircle = faInfoCircle;
   faSun = faSun;
   faMoon = faMoon;
+  faCity = faCity;
 
   constructor() {
   }
