@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faMap,
   faPlaneArrival,
-  faShip,
   faChartBar,
   faSun,
   faMoon,
@@ -16,7 +15,6 @@ import { MatSlideToggleChange } from '@angular/material';
 export class AppComponent implements OnInit {
   faMap = faMap;
   faPlaneArrival = faPlaneArrival;
-  faShip = faShip;
   faChartBar = faChartBar;
   faInfoCircle = faInfoCircle;
   faSun = faSun;

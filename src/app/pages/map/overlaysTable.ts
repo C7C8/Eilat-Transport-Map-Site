@@ -1,6 +1,6 @@
 import { Icon } from '@fortawesome/fontawesome-svg-core';
 import { faCar, faBus, faImage } from '@fortawesome/free-solid-svg-icons';
-import { mapBounds } from './app/pages/map/mapData';
+import { mapBounds } from './mapData';
 declare var google: any;
 
 export interface Overlay {
@@ -50,25 +50,6 @@ export const overlaysTable: (Overlay | GoogleOverlay)[] = [
       program</a> to gather static and live data from cities to better direct travelers and tourists.</p>`,
 
     onChange (map: any, selected: boolean): void {
-      this.active = selected;
-      this.gOverlay.setMap(selected ? map : null);
-    }
-  },
-  {
-    name: 'Overlay demo',
-    icon: faImage,
-    active: false,
-    descName: 'Image overlay demo',
-    tooltip: 'Google maps image overlay demo',
-    gOverlay: new google.maps.GroundOverlay('assets/overlay_demo.png', mapBounds),
-
-    description: `<p>Demonstration image overlay using the google maps API. Good for showing
-      static data such as city zoning or population density information. Images should be sized
-      at 3427x3226 with a transparent background in order to show overlays without distortion.</p>
-      <p><b>Important TODO: this overlay should be removed before the final version of this site
-      is published!</b></p>`,
-
-    onChange(map: any, selected: boolean): void {
       this.active = selected;
       this.gOverlay.setMap(selected ? map : null);
     }

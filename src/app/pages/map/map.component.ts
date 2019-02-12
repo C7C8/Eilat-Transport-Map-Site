@@ -9,7 +9,7 @@ import { faCompress,
           faCrosshairs } from '@fortawesome/free-solid-svg-icons';
 import { eilatCoords, mapBounds, mapStyleDefaultJSON, mapStyleSchematicJSON } from './mapData';
 
-import { GoogleOverlay, Overlay, overlaysTable } from '../../../overlaysTable';
+import { GoogleOverlay, Overlay, overlaysTable } from './overlaysTable';
 import { FormControl, Validators } from '@angular/forms';
 import { MatOptionSelectionChange, MatSnackBar, MatSnackBarConfig, MatTabChangeEvent } from '@angular/material';
 
