@@ -20,6 +20,7 @@ import {
   MatCardModule,
   MatCheckboxModule,
   MatExpansionModule,
+  MatChipsModule,
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -60,6 +61,7 @@ import { CityCardComponent } from './pages/cities/city-card/city-card.component'
     MatPaginatorModule,
     MatCardModule,
     MatCheckboxModule,
+    MatChipsModule,
     BrowserModule,
     BrowserAnimationsModule,
     FontAwesomeModule,

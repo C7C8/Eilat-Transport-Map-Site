@@ -1,13 +1,19 @@
-<mat-expansion-panel>
+<mat-expansion-panel [expanded]="true">
+
   <mat-expansion-panel-header>
     <mat-panel-title>
       <ng-content select="name"></ng-content>
       <ng-content select="country"></ng-content>
     </mat-panel-title>
     <mat-panel-description>
-      Population: <ng-content select="population"></ng-content>
+      <ng-content select="tags"></ng-content>
     </mat-panel-description>
   </mat-expansion-panel-header>
 
-  <ng-content select="preview"></ng-content>
+  <div class="preview">
+    <ng-content select="preview"></ng-content>
+    <span class="population">Population: <ng-content select="population"></ng-content></span>
+  </div>
+
+  <ng-content select="about"></ng-content>
 </mat-expansion-panel>
