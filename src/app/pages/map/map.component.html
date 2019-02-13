@@ -110,9 +110,11 @@
 
       <div>
         <button mat-raised-button color="primary"
+                [disabled]="refreshing"
                 (click)="refreshBusLocations()"
                 *ngIf="showRefresh">
-          <fa-icon [icon]="faSyncAlt"></fa-icon>
+          <fa-icon *ngIf="!refreshing" [icon]="faSyncAlt"></fa-icon>
+          <mat-spinner diameter="18" strokeWidth="3" *ngIf="refreshing"></mat-spinner>
           Refresh bus positions
         </button>
       </div>

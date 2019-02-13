@@ -1,0 +1,27 @@
+mat-panel-title {
+  font-weight: bold;
+
+  ::ng-deep name {
+    font-size: 1.5em;
+  }
+
+  ::ng-deep country {
+    font-size: 0.9em;
+    opacity: 0.8;
+    margin-top: 0.6em;
+    margin-left: 0.5em;
+  }
+}
+
+mat-panel-description {
+  margin-top: 0.3em;
+  display: flex;
+  justify-content: flex-end;
+}
+
+::ng-deep img {
+  max-width: 40%;
+  margin: 0 0.5em 0 1em;
+  display: inline-block;
+  float: left;
+}

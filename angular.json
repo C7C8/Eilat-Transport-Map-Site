@@ -27,8 +27,11 @@
               "src/styles.scss"
             ],
             "scripts": [
-							"./node_modules/geojson/geojson.min.js"
-						]
+              "./node_modules/geojson/geojson.min.js",
+              {
+                "input": "node_modules/document-register-element/build/document-register-element.js"
+              }
+            ]
           },
           "configurations": {
             "production": {

@@ -5,7 +5,13 @@
 
   <div class="content">
     <mat-tab-group>
-
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <fa-icon [icon]="faCity"></fa-icon>
+          Global Smart Cities
+        </ng-template>
+        <app-cities></app-cities>
+      </mat-tab>
 
       <mat-tab>
         <ng-template mat-tab-label>
@@ -28,14 +34,6 @@
         <ng-template matTabContent>
           <app-flights></app-flights>
         </ng-template>
-      </mat-tab>
-
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <fa-icon [icon]="faCity"></fa-icon>
-          Global Smart Cities
-        </ng-template>
-        <app-cities></app-cities>
       </mat-tab>
 
       <mat-tab>

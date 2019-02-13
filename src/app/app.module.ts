@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
@@ -18,7 +18,8 @@ import {
   MatSortModule,
   MatPaginatorModule,
   MatCardModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatExpansionModule,
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -29,6 +30,7 @@ import { AnalysisComponent } from './pages/analysis/analysis.component';
 import { AboutComponent } from './pages/about/about.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CitiesComponent } from './pages/cities/cities.component';
+import { CityCardComponent } from './pages/cities/city-card/city-card.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,7 @@ import { CitiesComponent } from './pages/cities/cities.component';
     AnalysisComponent,
     AboutComponent,
     CitiesComponent,
+    CityCardComponent,
   ],
   imports: [
     MatToolbarModule,
@@ -60,9 +63,11 @@ import { CitiesComponent } from './pages/cities/cities.component';
     BrowserModule,
     BrowserAnimationsModule,
     FontAwesomeModule,
-    HttpClientModule
+    HttpClientModule,
+    MatExpansionModule
   ],
   providers: [],
+  schemas: [ NO_ERRORS_SCHEMA ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

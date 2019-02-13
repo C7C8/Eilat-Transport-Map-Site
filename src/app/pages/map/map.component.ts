@@ -34,6 +34,7 @@ export class MapComponent implements AfterViewInit {
   searchCtl = new FormControl('', Validators.required);
   overlaysTable: (Overlay | GoogleOverlay)[] = overlaysTable;
   showRefresh = false;
+  refreshing = false;
   snackbarConfig: MatSnackBarConfig = {
     duration: 1500,
     verticalPosition: 'top',
@@ -129,13 +130,15 @@ export class MapComponent implements AfterViewInit {
     }
   }
 
-  refreshBusLocations(): void {
-    this.fetchService.cacheBusLocations();
+  async refreshBusLocations() {
+    this.refreshing = true;
+    await this.fetchService.cacheBusLocations();
 
     // Find the bus location overlay and toggle it so the markers get reloaded
     const busLocationOverlay = this.overlaysTable.filter((o) => o.name === 'Bus locations')[0];
     busLocationOverlay.onChange(this.map, false);
     busLocationOverlay.onChange(this.map, true);
+    this.refreshing = false;
   }
   zoomIn(): void {
     this.map.setZoom(this.map.getZoom() + 1);
