@@ -1,0 +1,90 @@
+<h2>Flights</h2>
+
+<div class="container">
+  <div class="flight-info">
+    <h3>Air Traffic</h3>
+    <p>The table on the right shows up to 250 flights that <em>arrived</em> at any of the three airports,
+      along with where they came from in order to get a better idea of where most air traffic is coming
+      from.</p>
+
+    <p>At present the table shows flights landing in Ramon, Eilat, and Ovda Airports, but the latter two are scheduled
+      to either shut down or stop handling civilian flights as air traffic in the region shifts to the newly-opened
+      Ramon Airport.</p>
+
+    <figure>
+      <img alt="Eilat Airport" src="assets/img/eilat_airport.jpg">
+      <figcaption>Eilat Airport, located near the center of the city. Eilat Airport is scheduled to shut down
+      in early 2019 as flights shift to Ramon Airport.</figcaption>
+    </figure>
+  </div>
+
+  <div class="table-container">
+    <h3>Table of Flights</h3>
+    <table mat-table [dataSource]="flights" matSort>
+      <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+
+      <ng-container matColumnDef="airlineCode">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Flight</th>
+        <td mat-cell *matCellDef="let flight">{{flight.airlineCode}}{{flight.flightNumber}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="arrival">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Arrival</th>
+        <td mat-cell *matCellDef="let flight">{{flight.arrival * 1000 | date:'medium':'+0200'}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="airline">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Airline</th>
+        <td mat-cell *matCellDef="let flight">{{flight.airline}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="srcAirport">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Departure Airport</th>
+        <td mat-cell *matCellDef="let flight">{{flight.srcAirport}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="srcCity">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Departure City</th>
+        <td mat-cell *matCellDef="let flight">{{flight.srcCity}}, {{flight.srcCountry}}</td>
+      </ng-container>
+    </table>
+    <mat-paginator [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons></mat-paginator>
+  </div>
+
+  <div class="chart-info">
+    <h3>When do flights arrive?</h3>
+    <p>The bar chart on the left shows when flights are most likely to arrive; that is, a bigger bar
+      means that in the past flights have tended to arrive more often at that time than others. Since
+      each flight typically brings hundreds of passengers, this information is useful for planning
+      transportation offerings.</p>
+
+    <p>This site has <b>{{flightsRaw.length}} flights on record</b>; you can select which days to view data
+      for using the checkboxes on the left.</p>
+
+    <figure>
+      <img alt="Ramon Airport" src="assets/img/ramon_airport.jpg">
+      <figcaption>Ramon Airport, built to replace and improve upon Eilat and Ovda airports, with a starting
+      capacity of 2M tourists/year.</figcaption>
+    </figure>
+
+  </div>
+
+  <mat-card class="chart">
+    <div class="chart-buttons">
+      <button mat-raised-button color="primary" (click)="toggleWeekdays()">Weekdays</button>
+      <button mat-raised-button color="primary" (click)="toggleWeekends()">Weekends</button>
+      <mat-checkbox *ngFor="let day of days"
+                    [checked]="daysSelected.includes(day)"
+                    (change)="handleDayChange($event, day)">
+        {{day}}
+      </mat-checkbox>
+    </div>
+
+    <div class="barchart-container">
+      <mat-card id="chart-tooltip">{{displayCnt}} flights</mat-card>
+      <svg id="barchart"></svg>
+    </div>
+  </mat-card>
+
+</div>

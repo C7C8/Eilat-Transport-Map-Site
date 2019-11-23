@@ -1,0 +1,179 @@
+<div class="map-container">
+  <!-- Left panel -->
+  <div class="side-info">
+    <h2>Interactive Map</h2>
+    <p>This map of the city of Eilat is designed to help with analysis and
+    visualization of transport in the city. You can select from four different map styles using
+    the buttons on the left, and you can add any number of informational overlays using the
+    dropdown menu on the right.</p>
+  </div>
+
+  <!-- Center panel -->
+  <mat-card>
+    <div class="buttonbar">
+
+      <!-- Map type switching -->
+      <span class="buttonbar-left">
+        <mat-tab-group (focusChange)="switchMapType($event)">
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <fa-icon [icon]="faRoad"></fa-icon>
+              Roadmap
+            </ng-template>
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <fa-icon [icon]="faMountain"></fa-icon>
+              Terrain
+            </ng-template>
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <fa-icon [icon]="faSatellite"></fa-icon>
+              Satellite
+            </ng-template>
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <fa-icon [icon]="faCodeBranch"></fa-icon>
+              Schematic
+            </ng-template>
+          </mat-tab>
+        </mat-tab-group>
+      </span>
+
+      <span class="buttonbar-right">
+        <!-- Overlay selection menu -->
+        <mat-form-field class="overlay-selector">
+          <mat-select placeholder="Map overlays"
+                      [formControl]="overlayCtl"
+                      matTooltipPosition="above"
+                      matTooltip="Select overlays to display on top of the map"
+                      multiple>
+            <mat-option *ngFor="let overlay of overlaysTable"
+                      [value]="overlay"
+                      matTooltipPosition="left"
+                      (onSelectionChange)="handleOverlayChange($event)"
+                      [matTooltip]="overlay.tooltip">
+              <fa-icon [icon]="overlay.icon"></fa-icon>
+              {{overlay.name}}
+            </mat-option>
+
+            <!-- Custom "+1 more" display in case of many overlays selected.
+            Shamelessly lifted from the Angular material docs... -->
+            <mat-select-trigger>
+              {{overlayCtl.value?.length > 0 ? overlayCtl.value[0].name : 'Map overlays'}}
+              <span *ngIf="overlayCtl.value?.length > 1" class="trigger-overflow">
+                (+{{overlayCtl.value.length - 1}} {{overlayCtl.value.length === 2 ? "other" : "others"}})
+              </span>
+            </mat-select-trigger>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Center map button -->
+        <button mat-raised-button
+                (click)="centerMap()"
+                color="primary"
+                [disabled]="!offCenter"
+                matTooltip="Zoom out and recenter the city in the center of your view"
+                matTooltipPosition="above">
+          <fa-icon [icon]="faCompress"></fa-icon>
+          Re-center
+        </button>
+
+      </span>
+    </div>
+
+    <!-- Map; filled in by the google maps API -->
+    <div class="map" [id]="mapId"></div>
+
+    <!-- Geocoding button, search bar, zoom in/out-->
+    <div class="buttonbar">
+      <form class="buttonbar-left" #searchForm="ngForm" (submit)="searchAddress()">
+        <button mat-raised-button
+                [disabled]="searchCtl.invalid"
+                color="primary">
+          <fa-icon [icon]="faCrosshairs"></fa-icon>
+          <!--<mat-spinner diameter=20 *ngIf="searching"></mat-spinner>-->
+          Search
+        </button>
+
+        <mat-form-field>
+          <input matInput
+                 placeholder="Address"
+                 [formControl]="searchCtl">
+        </mat-form-field>
+      </form>
+
+      <div>
+        <button mat-raised-button color="primary"
+                [disabled]="refreshing"
+                (click)="refreshBusLocations()"
+                *ngIf="showRefresh">
+          <fa-icon *ngIf="!refreshing" [icon]="faSyncAlt"></fa-icon>
+          <mat-spinner diameter="18" strokeWidth="3" *ngIf="refreshing"></mat-spinner>
+          Refresh bus positions
+        </button>
+      </div>
+
+      <div></div> <!-- What? Don't look at me that way!-->
+
+      <span class="zoom-buttons">
+        <button mat-icon-button (click)="zoomOut()" matTooltip="Zoom out">
+          <fa-icon [icon]="faMinus"></fa-icon>
+        </button>
+        <button mat-icon-button (click)="zoomIn()" matTooltip="Zoom in">
+          <fa-icon [icon]="faPlus"></fa-icon>
+        </button>
+      </span>
+    </div>
+  </mat-card>
+
+  <!-- Right panel -->
+  <div class="side-info">
+    <h2>What you're seeing:</h2>
+
+    <!-- Base map styles -->
+    <div *ngIf="mapType === 'default'" class="fade">
+      <h3>Roadmap view</h3>
+      <p>Displayed is a roadmap view of Eilat, with all roads shown clearly, and bodies of water in blue. </p>
+    </div>
+
+    <div *ngIf="mapType === 'terrain'" class="fade">
+      <h3>Terrain view</h3>
+      <p>The terrain of the city is shown using shadows and standard topographical
+        mapping techniques, to help aid understanding of how terrain affects transport in the city. If you've never
+        read a topographical map before, <a href="https://www.rei.com/learn/expert-advice/topo-maps-how-to-use.html">
+          here's a quick guide.</a>
+      </p>
+    </div>
+
+    <div *ngIf="mapType === 'hybrid'" class="fade">
+      <h3>Hybrid view</h3>
+      <p>In hybrid view an undetailed road overlay &amp; important markers are combined with satellite
+        imagery. Try switching between this view and roadmap with terrain to help understand Eilat's
+        terrain.</p>
+    </div>
+
+    <div *ngIf="mapType === 'road_schematic'" class="fade">
+      <h3>Schematic view</h3>
+      <p>In schematic view, terrain and water are darkened while roads are displayed in yellow for strong
+        visibility. The brighter the road, the bigger or faster it is, so the brightest level corresponds to
+        highways while the darkest is for local roads only.</p>
+    </div>
+
+    <!-- Information overlays -->
+    <div *ngFor="let overlay of overlaysTable">
+
+      <!-- Angular won't let me .filter the overlays table, booooooo... -->
+      <div *ngIf="overlay.active" class="fade">
+        <h3>{{overlay.descName}}</h3>
+        <div [innerHTML]="overlay.description"></div>
+      </div>
+    </div>
+  </div>
+</div>
+

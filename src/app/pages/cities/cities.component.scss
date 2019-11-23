@@ -1,0 +1,9 @@
+.accordion-wrapper {
+  text-align: center;
+
+  mat-accordion {
+    display: inline-block;
+    max-width: 65%;
+    margin: auto;
+  }
+}

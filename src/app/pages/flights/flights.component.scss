@@ -1,0 +1,80 @@
+.container {
+  display: grid;
+  grid-template: repeat(2, 1fr) / repeat(3, 1fr);
+  grid-gap: 1.5em;
+
+  .table-container {
+    grid-column-start: 2;
+    grid-column-end: 4;
+
+    h3 {
+      text-align: right;
+    }
+
+    table {
+      width: 100%;
+    }
+  }
+
+  .flight-info {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .chart-info {
+    grid-column: 3;
+    grid-row: 2;
+  }
+
+  .chart{
+    display: flex;
+    flex-direction: column;
+    grid-row: 2;
+    grid-column-start: 1;
+    grid-column-end: 3;
+
+    mat-checkbox {
+      margin: 0.5em;
+    }
+
+    .barchart-container {
+      flex: 1;
+
+      svg {
+        ::ng-deep .bar {
+          fill: #3d85c6;
+        }
+
+        ::ng-deep .bar:hover {
+          fill: #504bce;
+        }
+      }
+    }
+  }
+
+  button, mat-form-field {
+    margin-right: 0.75em;
+  }
+
+  figure {
+    margin: 3em auto 0;
+    max-width: 80%;
+
+    img {
+      max-width: 100%;
+    }
+
+    figcaption {
+      font-style: italic;
+      opacity: 0.6;
+      bottom: 0;
+    }
+  }
+}
+
+#chart-tooltip {
+  opacity: 0;
+  display: inline;
+  position: absolute;
+  text-align: center;
+}

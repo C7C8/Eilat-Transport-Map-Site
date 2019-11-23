@@ -1,0 +1,57 @@
+.container {
+  text-align: center;
+
+  ul {
+    padding: 0;
+    list-style: none;
+  }
+
+  .credits {
+    li {
+      display: inline-block;
+      margin: 0 0.5em;
+    }
+
+    p {
+      margin-top: 3em;
+      font-style: italic;
+      font-size: 0.7em;
+      opacity: 0.5;
+    }
+  }
+
+  .grid-container {
+    display: grid;
+    grid-template: repeat(2, auto) / repeat(2, 1fr);
+    grid-gap: 1.5em;
+    width: 75%;
+    margin: 0 auto 6em;
+
+
+    img {
+      display: block;
+    }
+
+    .wpi {
+      position: relative;
+
+      img {
+        // http://i.imgur.com/OOHAWsb.jpg
+        position: absolute;
+        max-width: 75%;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+      }
+    }
+
+    .eilat {
+      img {
+        max-height: 15em;
+        margin: 0 auto;
+      }
+    }
+  }
+}
