@@ -1,5 +1,8 @@
 import { Component, OnInit, ViewChild, AfterContentInit } from '@angular/core';
-import { MatCheckboxChange, MatPaginator, MatSort, MatTable, MatTableDataSource } from '@angular/material';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Flight, FlightsMat } from '../../DataTypes';
 import { FetchService } from '../../fetch.service';
 import * as d3 from 'd3';
@@ -16,9 +19,9 @@ let yScale;
 })
 export class FlightsComponent implements OnInit, AfterContentInit {
   // Table stuff
-  @ViewChild(MatTable) table: MatTable<any>;
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatTable, { static: true }) table: MatTable<any>;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   flightsRaw: Flight[] = [];
   flights = new MatTableDataSource();
   displayColumns = ['airlineCode', 'arrival', 'airline', 'srcAirport', 'srcCity'];

@@ -6,7 +6,7 @@ import { faMap,
   faMoon,
   faCity,
   faInfoCircle} from '@fortawesome/free-solid-svg-icons';
-import { MatSlideToggleChange } from '@angular/material';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { FetchService } from './fetch.service';
 
 @Component({

@@ -12,7 +12,9 @@ import { eilatCoords, mapBounds, mapStyleDefaultJSON, mapStyleSchematicJSON } fr
 
 import { GoogleOverlay, Overlay, overlaysTable } from './overlaysTable';
 import { FormControl, Validators } from '@angular/forms';
-import { MatOptionSelectionChange, MatSnackBar, MatSnackBarConfig, MatTabChangeEvent } from '@angular/material';
+import { MatOptionSelectionChange } from '@angular/material/core';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 import { FetchService } from '../../fetch.service';
 
 import * as gjson from 'geojson';
